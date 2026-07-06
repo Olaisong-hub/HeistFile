@@ -176,6 +176,121 @@ html, body{
   color: rgba(51,224,255,0.55);
 }
 
+/* ---------- home map ---------- */
+.home-map{
+  width: 100%;
+  height: 320px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  margin-top: 8px;
+}
+.map-caption{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 10px 2px 40px;
+}
+.leaflet-container{
+  background: var(--panel) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+.leaflet-control-zoom a{
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: none !important;
+}
+.leaflet-popup-content-wrapper{
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border-radius: 10px !important;
+  padding: 2px !important;
+}
+.leaflet-popup-tip{
+  background: var(--paper) !important;
+}
+.leaflet-popup-content{
+  margin: 12px 14px !important;
+  min-width: 190px;
+}
+.leaflet-popup-close-button{
+  color: var(--ink-soft) !important;
+}
+
+/* map pin */
+.map-pin{
+  width: 30px;
+  height: 30px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid rgba(16,19,26,0.6);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-pin span{
+  transform: rotate(45deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 10px;
+  color: #14090C;
+}
+.map-pin--passive{ background: var(--cash); }
+.map-pin--active{ background: var(--pink); }
+.map-pin--heist{ background: var(--orange); }
+.map-pin.is-selected{
+  outline: 3px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+/* popup content */
+.map-popup__badge{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.map-popup__name{
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.map-popup__stats{
+  display: flex;
+  justify-content: space-between;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  border-top: 1px dashed rgba(32,26,18,0.3);
+  border-bottom: 1px dashed rgba(32,26,18,0.3);
+  padding: 8px 0;
+  margin-bottom: 10px;
+}
+.map-popup__stats div{ display: flex; flex-direction: column; gap: 2px; }
+.map-popup__stats span:first-child{ color: var(--ink-soft); font-size: 10px; text-transform: uppercase; }
+.map-popup__btn{
+  width: 100%;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  font-size: 12.5px;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 10px;
+  cursor: pointer;
+  background: var(--ink);
+  color: var(--paper);
+}
+.map-popup__btn.is-selected{
+  background: var(--pink);
+  color: white;
+}
+
 /* ---------- intro cards ---------- */
 .intro-grid{
   display: grid;
@@ -409,6 +524,59 @@ html, body{
   opacity: 0.85;
 }
 
+/* ---------- heist strategy ---------- */
+.strategy-card{
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 26px 24px 28px;
+  margin-top: 32px;
+}
+.strategy-title{
+  font-family: 'Anton', sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.01em;
+  margin: 10px 0 16px;
+}
+.strategy-empty{
+  font-size: 14px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  margin: 0;
+}
+.strategy-list{
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.strategy-list li{
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 12px 14px;
+  background: var(--paper-2);
+  border-radius: 8px;
+  border-left: 3px solid var(--pink);
+}
+.strategy-list strong{ font-family: 'IBM Plex Mono', monospace; }
+.strategy-rate{
+  display: block;
+  margin-top: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: #1C6B47;
+}
+.strategy-summary{
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.55;
+  border-top: 1px dashed rgba(32,26,18,0.3);
+  padding-top: 14px;
+  margin: 0;
+}
+
 /* ---------- footer ---------- */
 .footer{ border-top: 1px solid var(--line); padding: 28px 0 60px; }
 .footer__inner p{ font-size: 12.5px; color: var(--text-dim); line-height: 1.6; max-width: 780px; }
@@ -421,4 +589,5 @@ html, body{
   .tab{ padding: 7px 10px; font-size: 12px; }
   .summary-bar__inner{ gap: 16px; }
   .summary-bar__inner .btn{ margin-left: 0; width: 100%; order: 5; }
+  .home-map{ height: 240px; }
 }
