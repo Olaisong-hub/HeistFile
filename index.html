@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="sv">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HeistFile — Inofficiell pengaguide för GTA Online</title>
-<meta name="description" content="Räkna ut snabbaste vägen till din nästa miljon i GTA Online. Business-kalkylator och mål-planerare.">
+<title>HeistFile — Unofficial GTA Online Money Guide</title>
+<meta name="description" content="Work out the fastest route to your next million in GTA Online. Business calculator and goal planner.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,26 +16,26 @@
 
 <header class="topbar">
   <div class="wrap topbar__inner">
-    <a href="#hem" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
-    <nav class="tabs" role="tablist" aria-label="Sidnavigering">
-      <button class="tab is-active" data-target="view-hem" role="tab" aria-selected="true">Hem</button>
-      <button class="tab" data-target="view-calc" role="tab" aria-selected="false">Fastigheter &amp; Business</button>
-      <button class="tab" data-target="view-goal" role="tab" aria-selected="false">Mål-planerare</button>
+    <a href="#home" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
+    <nav class="tabs" role="tablist" aria-label="Page navigation">
+      <button class="tab is-active" data-target="view-hem" role="tab" aria-selected="true">Home</button>
+      <button class="tab" data-target="view-calc" role="tab" aria-selected="false">Properties &amp; Business</button>
+      <button class="tab" data-target="view-goal" role="tab" aria-selected="false">Goal Planner</button>
     </nav>
   </div>
 </header>
 
 <main>
 
-  <!-- ============ HEM ============ -->
+  <!-- ============ HOME ============ -->
   <section id="view-hem" class="view is-active">
     <section class="hero wrap">
-      <p class="eyebrow">CASE FIL #6919 — INOFFICIELL SPELGUIDE, GTA ONLINE</p>
-      <h1 class="hero__title">SLUTA GISSA.<br>BÖRJA RÄKNA.</h1>
-      <p class="hero__sub">Två verktyg. Ett för att jämföra vilka fastigheter och verksamheter som faktiskt betalar sig — och ett som räknar ut exakt hur många timmar som skiljer dig från nästa köp.</p>
+      <p class="eyebrow">CASE FILE #6919 — UNOFFICIAL GAME GUIDE, GTA ONLINE</p>
+      <h1 class="hero__title">STOP GUESSING.<br>START COUNTING.</h1>
+      <p class="hero__sub">Two tools. One to compare which properties and businesses actually pay off — and one that works out exactly how many hours stand between you and your next purchase.</p>
       <div class="hero__cta">
-        <button class="btn btn--primary" data-target="view-calc">Öppna kalkylatorn</button>
-        <button class="btn btn--ghost" data-target="view-goal">Planera mitt mål</button>
+        <button class="btn btn--primary" data-target="view-calc">Open the calculator</button>
+        <button class="btn btn--ghost" data-target="view-goal">Plan my goal</button>
       </div>
       <svg class="skyline" viewBox="0 0 800 160" preserveAspectRatio="none" aria-hidden="true">
         <line x1="0" y1="140" x2="800" y2="140" stroke="currentColor" stroke-width="1" opacity="0.5"/>
@@ -59,28 +59,28 @@
     <section class="wrap intro-grid">
       <div class="intro-card">
         <span class="stamp stamp--cyan">01</span>
-        <h3>Jämför verksamheter</h3>
-        <p>Pris, kategori och realistisk intäkt per timme för de affärer som faktiskt är värda pengarna — inte de som bara ser coola ut.</p>
+        <h3>Compare businesses</h3>
+        <p>Price, category, and realistic hourly income for the businesses that are actually worth the money — not just the ones that look cool.</p>
       </div>
       <div class="intro-card">
         <span class="stamp stamp--pink">02</span>
-        <h3>Räkna ut din tidslinje</h3>
-        <p>Ange vad du sparar till och vad du tjänar nu, så får du en tydlig kvittolapp med hur många timmar och sessioner som återstår.</p>
+        <h3>Work out your timeline</h3>
+        <p>Enter what you're saving for and what you earn now, and get a clear receipt showing exactly how many hours and sessions are left.</p>
       </div>
       <div class="intro-card">
         <span class="stamp stamp--green">03</span>
-        <h3>Byggd för att uppdateras</h3>
-        <p>Sidan är byggd för GTA Online idag — och görs om till en GTA 6-guide med riktig speldata så fort spelet släpps 19 november 2026.</p>
+        <h3>Built to be updated</h3>
+        <p>The site is built for GTA Online today — and will be rebuilt as a GTA 6 guide with real in-game data as soon as the game launches on November 19, 2026.</p>
       </div>
     </section>
   </section>
 
-  <!-- ============ KALKYLATOR ============ -->
+  <!-- ============ CALCULATOR ============ -->
   <section id="view-calc" class="view">
     <div class="wrap">
-      <p class="eyebrow">VERKTYG 01</p>
-      <h2 class="section-title">Business-kalkylator</h2>
-      <p class="section-sub">Bocka i det du redan äger eller funderar på att köpa. Summeringen längst ned räknar ut total investering, kombinerad timintäkt och ungefärlig återbetalningstid.</p>
+      <p class="eyebrow">TOOL 01</p>
+      <h2 class="section-title">Business Calculator</h2>
+      <p class="section-sub">Check off what you already own or are considering buying. The summary at the bottom works out total investment, combined hourly income, and estimated payback time.</p>
 
       <div class="biz-grid" id="bizGrid"></div>
     </div>
@@ -88,67 +88,67 @@
     <div class="summary-bar" id="summaryBar">
       <div class="wrap summary-bar__inner">
         <div class="summary-item">
-          <span class="summary-label">Investering</span>
+          <span class="summary-label">Investment</span>
           <span class="summary-value" id="sumInvest">$0</span>
         </div>
         <div class="summary-item">
-          <span class="summary-label">Intäkt / timme</span>
+          <span class="summary-label">Income / hour</span>
           <span class="summary-value summary-value--green" id="sumIncome">$0</span>
         </div>
         <div class="summary-item">
-          <span class="summary-label">Återbetalning</span>
+          <span class="summary-label">Payback</span>
           <span class="summary-value" id="sumPayback">—</span>
         </div>
-        <button class="btn btn--small" id="sendToGoal">Använd i mål-planeraren →</button>
+        <button class="btn btn--small" id="sendToGoal">Use in goal planner →</button>
       </div>
     </div>
   </section>
 
-  <!-- ============ MÅL-PLANERARE ============ -->
+  <!-- ============ GOAL PLANNER ============ -->
   <section id="view-goal" class="view">
     <div class="wrap goal-layout">
       <div class="goal-form">
-        <p class="eyebrow">VERKTYG 02</p>
-        <h2 class="section-title">Mål-planerare</h2>
-        <p class="section-sub">Välj vad du siktar på, fyll i vad du har och vad du tjänar — så skriver vi ut ett kvitto på exakt hur långt kvar det är.</p>
+        <p class="eyebrow">TOOL 02</p>
+        <h2 class="section-title">Goal Planner</h2>
+        <p class="section-sub">Pick what you're aiming for, fill in what you have and what you earn — and we'll print out a receipt showing exactly how far away it is.</p>
 
-        <label class="field-label" for="goalSelect">Mål</label>
+        <label class="field-label" for="goalSelect">Goal</label>
         <select id="goalSelect" class="field"></select>
 
         <div id="customGoalWrap" class="field-group" hidden>
-          <label class="field-label" for="customGoalAmount">Eget belopp ($)</label>
-          <input type="number" id="customGoalAmount" class="field" placeholder="t.ex. 5000000" min="0" step="1000">
+          <label class="field-label" for="customGoalAmount">Custom amount ($)</label>
+          <input type="number" id="customGoalAmount" class="field" placeholder="e.g. 5000000" min="0" step="1000">
         </div>
 
-        <label class="field-label" for="currentCash">Vad du har idag ($)</label>
+        <label class="field-label" for="currentCash">What you have today ($)</label>
         <input type="number" id="currentCash" class="field" placeholder="0" min="0" step="1000" value="0">
 
-        <label class="field-label" for="incomeRate">Din intäkt just nu ($ / timme)</label>
+        <label class="field-label" for="incomeRate">Your current income ($ / hour)</label>
         <input type="number" id="incomeRate" class="field" placeholder="0" min="0" step="1000" value="0">
-        <p class="field-hint" id="incomeHint">Tips: gå till kalkylatorn och tryck "Använd i mål-planeraren" så fylls detta i automatiskt.</p>
+        <p class="field-hint" id="incomeHint">Tip: go to the calculator and tap "Use in goal planner" to fill this in automatically.</p>
 
-        <label class="field-label" for="hoursPerDay">Speltimmar per dag</label>
+        <label class="field-label" for="hoursPerDay">Play hours per day</label>
         <input type="range" id="hoursPerDay" class="field field--range" min="0.5" max="8" step="0.5" value="2">
-        <div class="range-value"><span id="hoursPerDayValue">2</span> h/dag</div>
+        <div class="range-value"><span id="hoursPerDayValue">2</span> h/day</div>
       </div>
 
       <div class="receipt-wrap">
         <div class="receipt" id="receipt">
           <div class="receipt__header">
             <div class="receipt__title">HEISTFILE RECEIPT</div>
-            <div class="receipt__sub">— inofficiell beräkning —</div>
+            <div class="receipt__sub">— unofficial estimate —</div>
           </div>
           <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__row"><span>MÅL</span><span id="rGoalName">—</span></div>
-          <div class="receipt__row"><span>PRIS</span><span id="rGoalPrice">$0</span></div>
-          <div class="receipt__row"><span>DU HAR</span><span id="rCash">$0</span></div>
-          <div class="receipt__row receipt__row--bold"><span>KVAR</span><span id="rRemaining">$0</span></div>
+          <div class="receipt__row"><span>GOAL</span><span id="rGoalName">—</span></div>
+          <div class="receipt__row"><span>PRICE</span><span id="rGoalPrice">$0</span></div>
+          <div class="receipt__row"><span>YOU HAVE</span><span id="rCash">$0</span></div>
+          <div class="receipt__row receipt__row--bold"><span>REMAINING</span><span id="rRemaining">$0</span></div>
           <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__row"><span>DIN TAKT</span><span id="rRate">$0/h</span></div>
-          <div class="receipt__row"><span>TIMMAR KVAR</span><span id="rHours">—</span></div>
-          <div class="receipt__row receipt__row--bold"><span>DAGAR KVAR</span><span id="rDays">—</span></div>
+          <div class="receipt__row"><span>YOUR RATE</span><span id="rRate">$0/h</span></div>
+          <div class="receipt__row"><span>HOURS LEFT</span><span id="rHours">—</span></div>
+          <div class="receipt__row receipt__row--bold"><span>DAYS LEFT</span><span id="rDays">—</span></div>
           <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__note" id="rNote">Fyll i dina uppgifter till vänster.</div>
+          <div class="receipt__note" id="rNote">Fill in your details on the left.</div>
           <div class="receipt__barcode" aria-hidden="true"></div>
         </div>
       </div>
@@ -159,7 +159,7 @@
 
 <footer class="footer">
   <div class="wrap footer__inner">
-    <p><strong>HeistFile</strong> är en inofficiell fansajt och är inte kopplad till, godkänd av eller sponsrad av Rockstar Games eller Take-Two Interactive. Alla priser och intäkter är ungefärliga uppskattningar baserade på communityguider och kan ändras vid spelets uppdateringar — dubbelkolla alltid i spelet.</p>
+    <p><strong>HeistFile</strong> is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. All prices and income figures are approximate community-based estimates and may change with game updates — always double-check in game.</p>
   </div>
 </footer>
 
