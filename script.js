@@ -1,57 +1,57 @@
 /* ===========================================================
-   HEISTFILE — GTA Online-data
-   OBS: Alla priser/intäkter är communitybaserade uppskattningar
-   (2026) och kan ändras vid spelets uppdateringar.
+   HEISTFILE — GTA Online data
+   NOTE: All prices/income figures are community-based estimates
+   (2026) and may change with game updates.
    =========================================================== */
 
 const BUSINESSES = [
   {
     id: "acidlab",
-    name: "Syralabbet (Acid Lab)",
-    category: "passiv",
+    name: "Acid Lab",
+    category: "passive",
     price: 750000,
     incomePerHour: 150000,
-    note: "Billigast bra business. Fyll på själv och sälj löst — låg micromanagement."
+    note: "Cheapest solid business. Self-supplied and sold loose — low micromanagement."
   },
   {
     id: "nightclub",
     name: "Nightclub",
-    category: "passiv",
+    category: "passive",
     price: 1350000,
     incomePerHour: 60000,
-    note: "Bäst i kombo — mata den med Bunker och MC-verksamheter för lagerförsäljning."
+    note: "Best in combo — feed it with Bunker and MC businesses for warehouse sales."
   },
   {
     id: "bunker",
     name: "Bunker",
-    category: "passiv",
+    category: "passive",
     price: 1550000,
     incomePerHour: 45000,
-    note: "Klassikern. Håll försörjning uppe och kombinera med Nightclub."
+    note: "The classic. Keep supplies up and pair it with the Nightclub."
   },
   {
     id: "cocaine",
     name: "MC — Cocaine Lockup",
-    category: "passiv",
+    category: "passive",
     price: 975000,
     incomePerHour: 40000,
-    note: "Den bästa MC-verksamheten. Mest värd för att mata Nightclubs lager."
+    note: "The best MC business. Most valuable for feeding the Nightclub's warehouse."
   },
   {
     id: "autoshop",
     name: "Auto Shop",
-    category: "aktiv",
+    category: "active",
     price: 2135000,
     incomePerHour: 400000,
-    note: "Kontrakt á 170–300k på 30–45 min. Bra blandning av action och pengar."
+    note: "Contracts worth 170–300k over 30–45 min. Good mix of action and money."
   },
   {
     id: "agency",
     name: "Agency",
-    category: "aktiv",
+    category: "active",
     price: 2850000,
     incomePerHour: 120000,
-    note: "Dr Dre-kontrakt (1M) plus säkerhetskontrakt. Kräver lite startkapital."
+    note: "Dr Dre contract (1M) plus security contracts. Needs a bit of starting capital."
   },
   {
     id: "kosatka",
@@ -59,15 +59,15 @@ const BUSINESSES = [
     category: "heist",
     price: 2200000,
     incomePerHour: 1000000,
-    note: "Bästa solo-heisten i spelet rakt av. Kräver ubåten som bas."
+    note: "Straight up the best solo heist in the game. Requires the submarine as a base."
   },
   {
     id: "salvageyard",
     name: "Salvage Yard",
-    category: "aktiv",
+    category: "active",
     price: 1830000,
     incomePerHour: 90000,
-    note: "Robbery Contracts + passiv bärgningsbilsinkomst i bakgrunden."
+    note: "Robbery Contracts plus passive tow-truck income in the background."
   }
 ];
 
@@ -76,11 +76,11 @@ const GOALS = [
   { id: "deluxo", name: "Deluxo", price: 4721500 },
   { id: "toreador", name: "Pegassi Toreador", price: 3675000 },
   { id: "buzzard", name: "Buzzard Attack Chopper", price: 1750000 },
-  { id: "kosatkagoal", name: "Kosatka (ubåt)", price: 2200000 },
-  { id: "custom", name: "Eget mål / eget belopp…", price: null }
+  { id: "kosatkagoal", name: "Kosatka (submarine)", price: 2200000 },
+  { id: "custom", name: "Custom goal / custom amount…", price: null }
 ];
 
-const fmt = (n) => "$" + Math.round(n).toLocaleString("sv-SE");
+const fmt = (n) => "$" + Math.round(n).toLocaleString("en-US");
 
 const state = {
   selected: new Set()
@@ -111,8 +111,8 @@ function renderBizGrid(){
       <p class="biz-card__name">${b.name}</p>
       <p class="biz-card__note">${b.note}</p>
       <div class="biz-card__stats">
-        <div><span>Pris</span><span>${fmt(b.price)}</span></div>
-        <div><span>$ / timme</span><span>${fmt(b.incomePerHour)}</span></div>
+        <div><span>Price</span><span>${fmt(b.price)}</span></div>
+        <div><span>$ / hour</span><span>${fmt(b.incomePerHour)}</span></div>
       </div>
     </div>
   `).join("");
@@ -150,8 +150,8 @@ document.getElementById("sendToGoal").addEventListener("click", () => {
   const totalIncome = chosen.reduce((s, b) => s + b.incomePerHour, 0);
   document.getElementById("incomeRate").value = totalIncome;
   document.getElementById("incomeHint").textContent = chosen.length
-    ? `Ifyllt automatiskt från ${chosen.length} vald(a) verksamhet(er) i kalkylatorn.`
-    : "Tips: gå till kalkylatorn och tryck \"Använd i mål-planeraren\" så fylls detta i automatiskt.";
+    ? `Auto-filled from ${chosen.length} selected business(es) in the calculator.`
+    : "Tip: go to the calculator and tap \"Use in goal planner\" to fill this in automatically.";
   showView("view-goal");
   updateReceipt();
 });
@@ -167,7 +167,7 @@ function currentGoal(){
   const goal = GOALS.find(g => g.id === id);
   if (goal.id === "custom"){
     const custom = parseFloat(document.getElementById("customGoalAmount").value) || 0;
-    return { name: "Eget mål", price: custom };
+    return { name: "Custom goal", price: custom };
   }
   return goal;
 }
@@ -204,15 +204,15 @@ function updateReceipt(){
   document.getElementById("rRemaining").textContent = fmt(remaining);
   document.getElementById("rRate").textContent = fmt(rate) + "/h";
   document.getElementById("rHours").textContent = hoursNeeded !== null ? hoursNeeded.toFixed(1) + " h" : "—";
-  document.getElementById("rDays").textContent = daysNeeded !== null ? Math.ceil(daysNeeded) + " dagar" : "—";
+  document.getElementById("rDays").textContent = daysNeeded !== null ? Math.ceil(daysNeeded) + " days" : "—";
 
   const note = document.getElementById("rNote");
   if (remaining <= 0){
-    note.textContent = "Du har redan råd — dags att åka till Maze Bank Foreclosures eller garaget.";
+    note.textContent = "You can already afford it — time to head to Maze Bank Foreclosures or the garage.";
   } else if (rate <= 0){
-    note.textContent = "Fyll i din timintäkt (eller hämta den från kalkylatorn) för att se en tidslinje.";
+    note.textContent = "Fill in your hourly income (or pull it from the calculator) to see a timeline.";
   } else {
-    note.textContent = `Vid ${hoursPerDay} h/dag klarar du det på cirka ${Math.ceil(daysNeeded)} dagar. Lägg till fler verksamheter i kalkylatorn för att korta tiden.`;
+    note.textContent = `At ${hoursPerDay} h/day you'll get there in about ${Math.ceil(daysNeeded)} days. Add more businesses in the calculator to shorten the time.`;
   }
 }
 
