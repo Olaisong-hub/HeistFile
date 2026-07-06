@@ -1,38 +1,39 @@
-# HeistFile — GTA Online pengaguide
+# HeistFile — GTA Online Money Guide
 
-Statisk webbplats (ingen backend, inga byggverktyg) med två interaktiva verktyg:
-- **Business-kalkylator** — jämför pris/intäkt för GTA Online-verksamheter
-- **Mål-planerare** — räknar ut hur lång tid det tar att spara ihop till en bil/vara
+A static website (no backend, no build tools) with two interactive tools:
+- **Business Calculator** — compare price/income for GTA Online businesses
+- **Goal Planner** — works out how long it takes to save up for a car/item
 
-## Filer
-- `index.html` — all struktur och innehåll
-- `styles.css` — allt utseende
-- `script.js` — all data (siffror för businesses/mål) och logik
+## Files
+- `index.html` — all structure and content
+- `styles.css` — all styling
+- `script.js` — all data (business/goal figures) and logic
 
-## Så lägger du upp den gratis
+## How to host it for free
 
-**Netlify (enklast)**
-1. Gå till app.netlify.com → "Add new site" → "Deploy manually"
-2. Dra hela mappen (index.html, styles.css, script.js) till rutan
-3. Klart — du får en gratis `.netlify.app`-adress direkt
+**Netlify (easiest)**
+1. Go to app.netlify.com → "Add new site" → "Deploy manually"
+2. Drag the whole folder (index.html, styles.css, script.js) into the box
+3. Done — you get a free `.netlify.app` address instantly
 
 **Vercel**
-1. Skapa ett gratis konto på vercel.com
-2. "Add New Project" → ladda upp mappen eller koppla ett GitHub-repo med filerna
+1. Create a free account at vercel.com
+2. "Add New Project" → upload the folder or connect a GitHub repo with the files
 3. Deploy
 
 **GitHub Pages**
-1. Skapa ett nytt repo, lägg in de tre filerna i rooten
-2. Settings → Pages → Source: main-branch → Spara
-3. Sajten publiceras på `dittnamn.github.io/reponamn`
+1. Create a new repo, add the three files at the root
+2. Settings → Pages → Source: main branch → Save
+3. The site is published at `yourname.github.io/reponame`
 
-Vill du använda ett eget domännamn (typ dinsida.se) kopplar du det i Netlify/Vercel-inställningarna — det brukar kosta runt 100–150 kr/år hos valfri domänleverantör, men själva hostingen ovan är gratis.
+If you want a custom domain (like yoursite.com), connect it in the Netlify/Vercel settings — that usually costs around $10–15/year from any domain registrar, but the hosting itself above is free.
 
-## Uppdatera siffror
-Öppna `script.js` och ändra i listorna `BUSINESSES` (verksamheter) och `GOALS` (sparmål). Alla priser/intäkter just nu är community-uppskattningar för 2026 och bör dubbelkollas mot spelet då och då.
+## Updating the numbers
+Open `script.js` and edit the `BUSINESSES` (businesses) and `GOALS` (savings targets) lists. All prices/income figures right now are community estimates for 2026 and should be double-checked against the game from time to time.
 
-## Så pivoterar du till GTA 6
-När GTA 6 släpps (19 nov 2026) och riktig speldata finns:
-1. Byt ut innehållet i `BUSINESSES` och `GOALS` i `script.js` mot GTA 6:s fastigheter/fordon
-2. Uppdatera rubriker/texter i `index.html` som nämner "GTA Online"
-3. Behåll disclaimer-texten i footern (inofficiell fansajt) — byt bara ut spelnamnet
+## How to pivot to GTA 6
+Once GTA 6 launches (Nov 19, 2026) and real in-game data exists:
+1. Replace the content in `BUSINESSES` and `GOALS` in `script.js` with GTA 6's properties/vehicles
+2. Update the headings/text in `index.html` that mention "GTA Online"
+3. Keep the disclaimer text in the footer (unofficial fan site) — just swap the game name
+4. 
