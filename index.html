@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -37,23 +38,8 @@
         <button class="btn btn--primary" data-target="view-calc">Open the calculator</button>
         <button class="btn btn--ghost" data-target="view-goal">Plan my goal</button>
       </div>
-      <svg class="skyline" viewBox="0 0 800 160" preserveAspectRatio="none" aria-hidden="true">
-        <line x1="0" y1="140" x2="800" y2="140" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-        <polyline points="0,140 40,90 40,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="70,140 70,60 120,60 120,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="150,140 150,100 175,80 200,100 200,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="230,140 230,40 260,40 260,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <line x1="245" y1="40" x2="245" y2="20" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="290,140 290,75 330,75 330,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="360,140 360,110 385,110 385,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="410,140 410,55 460,55 460,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="490,140 490,95 520,95 520,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="550,140 550,30 585,30 585,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="615,140 615,85 645,85 645,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="670,140 670,65 705,65 705,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <polyline points="730,140 730,105 760,105 760,140" fill="none" stroke="currentColor" stroke-width="1.5"/>
-        <circle cx="245" cy="20" r="2.5" fill="currentColor"/>
-      </svg>
+      <div id="homeMap" class="home-map" role="application" aria-label="Interactive property map"></div>
+      <p class="map-caption">Tap a pin to see price and hourly income — add it straight to your planner.</p>
     </section>
 
     <section class="wrap intro-grid">
@@ -153,6 +139,14 @@
         </div>
       </div>
     </div>
+
+    <div class="wrap">
+      <div class="strategy-card" id="strategyCard">
+        <span class="stamp stamp--pink">RECOMMENDED LOOP</span>
+        <h3 class="strategy-title">Heist Strategy</h3>
+        <div id="heistStrategy"></div>
+      </div>
+    </div>
   </section>
 
 </main>
@@ -163,6 +157,7 @@
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
