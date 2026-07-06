@@ -263,8 +263,8 @@ html, body{
   margin-bottom: 10px;
   transform: rotate(-2deg);
 }
-.badge--passiv{ background: rgba(53,214,138,0.18); color: #1C6B47; }
-.badge--aktiv{ background: rgba(255,62,127,0.18); color: #94123F; }
+.badge--passive{ background: rgba(53,214,138,0.18); color: #1C6B47; }
+.badge--active{ background: rgba(255,62,127,0.18); color: #94123F; }
 .badge--heist{ background: rgba(255,122,69,0.2); color: #9A3E15; }
 .biz-card__name{
   font-weight: 800;
