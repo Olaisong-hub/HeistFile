@@ -122,6 +122,7 @@ html, body{
   padding: 64px 20px 24px;
   position: relative;
 }
+.hero--countdown{ padding-top: 0; }
 .eyebrow{
   font-family: 'IBM Plex Mono', monospace;
   font-size: 12px;
@@ -149,6 +150,87 @@ html, body{
   margin: 0 0 28px;
 }
 .hero__cta{ display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 40px; }
+
+/* ---------- chooser: Money Guide / Wiki split ---------- */
+.chooser{
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2px;
+  margin: 8px 0 48px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.chooser__half{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  background: var(--panel);
+  border: none;
+  padding: 36px 26px;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  transition: background 0.15s ease, transform 0.12s ease;
+}
+.chooser__half:hover{ background: var(--panel-2); }
+.chooser__half:active{ transform: scale(0.995); }
+.chooser__icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+.chooser__half--guide .chooser__icon{
+  background: linear-gradient(135deg, var(--orange), var(--pink));
+  color: #14090C;
+}
+.chooser__half--wiki .chooser__icon{
+  background: rgba(51,224,255,0.14);
+  color: var(--cyan);
+  border: 1px solid var(--cyan);
+}
+.chooser__eyebrow{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.chooser__title{
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(26px, 6vw, 36px);
+  letter-spacing: 0.01em;
+  margin: 0 0 10px;
+}
+.chooser__desc{
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+  max-width: 380px;
+  margin: 0 0 20px;
+}
+.chooser__cta{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.chooser__half--guide .chooser__cta{ color: var(--orange); }
+.chooser__half--wiki .chooser__cta{ color: var(--cyan); }
+
+@media (min-width: 640px){
+  .chooser{ grid-template-columns: 1fr 1fr; }
+  .chooser__half{ padding: 52px 38px; min-height: 300px; justify-content: center; }
+}
 
 .btn{
   font-family: 'Inter', sans-serif;
