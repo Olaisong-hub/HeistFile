@@ -1,111 +1,8 @@
 /* ===========================================================
-   HEISTFILE — GTA Online data
-   NOTE: All prices/income figures are community-based estimates
-   (2026) and may change with game updates.
-   Map coordinates (mapY, mapX) are placeholder positions on the
-   generic placeholder map, not real in-game locations.
+   HEISTFILE — GTA 6 countdown & confirmed facts
+   NOTE: Only confirmed information from Rockstar is included.
+   See the sources on the Facts page.
    =========================================================== */
-
-const BUSINESSES = [
-  {
-    id: "acidlab",
-    name: "Acid Lab",
-    category: "passive",
-    price: 750000,
-    incomePerHour: 150000,
-    note: "Cheapest solid business. Self-supplied and sold loose — low micromanagement.",
-    action: "Kick off a batch at the Acid Lab and sell it solo once it's ready",
-    mapY: 520, mapX: 180
-  },
-  {
-    id: "nightclub",
-    name: "Nightclub",
-    category: "passive",
-    price: 1350000,
-    incomePerHour: 60000,
-    note: "Best in combo — feed it with Bunker and MC businesses for warehouse sales.",
-    action: "Sell your Nightclub warehouse stock once it's full",
-    mapY: 220, mapX: 300
-  },
-  {
-    id: "bunker",
-    name: "Bunker",
-    category: "passive",
-    price: 1550000,
-    incomePerHour: 45000,
-    note: "The classic. Keep supplies up and pair it with the Nightclub.",
-    action: "Sell your Bunker stock in a full supply run",
-    mapY: 580, mapX: 610
-  },
-  {
-    id: "cocaine",
-    name: "MC — Cocaine Lockup",
-    category: "passive",
-    price: 975000,
-    incomePerHour: 40000,
-    note: "The best MC business. Most valuable for feeding the Nightclub's warehouse.",
-    action: "Sell Cocaine Lockup product straight into your Nightclub warehouse",
-    mapY: 420, mapX: 750
-  },
-  {
-    id: "autoshop",
-    name: "Auto Shop",
-    category: "active",
-    price: 2135000,
-    incomePerHour: 400000,
-    note: "Contracts worth 170–300k over 30–45 min. Good mix of action and money.",
-    action: "Run an Auto Shop client contract",
-    mapY: 260, mapX: 480
-  },
-  {
-    id: "agency",
-    name: "Agency",
-    category: "active",
-    price: 2850000,
-    incomePerHour: 120000,
-    note: "Dr Dre contract (1M) plus security contracts. Needs a bit of starting capital.",
-    action: "Run an Agency security contract or Dr Dre setup mission",
-    mapY: 170, mapX: 470
-  },
-  {
-    id: "kosatka",
-    name: "Kosatka + Cayo Perico",
-    category: "heist",
-    price: 2200000,
-    incomePerHour: 1000000,
-    note: "Straight up the best solo heist in the game. Requires the submarine as a base.",
-    action: "Run the Cayo Perico Heist finale for the big payout",
-    mapY: 640, mapX: 850
-  },
-  {
-    id: "salvageyard",
-    name: "Salvage Yard",
-    category: "active",
-    price: 1830000,
-    incomePerHour: 90000,
-    note: "Robbery Contracts plus passive tow-truck income in the background.",
-    action: "Run a Salvage Yard Robbery Contract",
-    mapY: 430, mapX: 850
-  }
-];
-
-const GOALS = [
-  { id: "oppressor", name: "Oppressor Mk II", price: 3890250 },
-  { id: "deluxo", name: "Deluxo", price: 4721500 },
-  { id: "toreador", name: "Pegassi Toreador", price: 3675000 },
-  { id: "buzzard", name: "Buzzard Attack Chopper", price: 1750000 },
-  { id: "kosatkagoal", name: "Kosatka (submarine)", price: 2200000 },
-  { id: "custom", name: "Custom goal / custom amount…", price: null }
-];
-
-const fmt = (n) => "$" + Math.round(n).toLocaleString("en-US");
-
-const state = {
-  selected: new Set()
-};
-
-const markersById = {};
-let leafletMap = null;
 
 /* ---------------- navigation ---------------- */
 function showView(targetId){
@@ -116,335 +13,49 @@ function showView(targetId){
     t.setAttribute("aria-selected", active ? "true" : "false");
   });
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
-  // Leaflet needs a nudge to recalculate its size the first time its
-  // container becomes visible (it reports 0x0 while display:none).
-  if (targetId === "view-hem" && leafletMap) {
-    setTimeout(() => leafletMap.invalidateSize(), 50);
-  }
 }
 
 document.querySelectorAll("[data-target]").forEach(el => {
   el.addEventListener("click", () => showView(el.dataset.target));
 });
 
-/* ---------------- shared selection logic ---------------- */
-/* Used by both the calculator cards and the map popups, so picking a
-   business in either place stays in sync everywhere else. */
-function toggleBusinessSelection(id){
-  const business = BUSINESSES.find(b => b.id === id);
-  if (!business) return;
+/* ---------------- countdown to release ----------------
+   November 19, 2026, midnight in the visitor's local time.
+   Rockstar hasn't confirmed an exact time, so we count down
+   to the start of the day rather than guessing a time. */
+const RELEASE_DATE = new Date(2026, 10, 19, 0, 0, 0);
 
-  if (state.selected.has(id)) state.selected.delete(id);
-  else state.selected.add(id);
+function updateCountdown(){
+  const daysEl = document.getElementById("cdDays");
+  const hoursEl = document.getElementById("cdHours");
+  const minutesEl = document.getElementById("cdMinutes");
+  const secondsEl = document.getElementById("cdSeconds");
+  const noteEl = document.getElementById("cdNote");
+  if (!daysEl || !hoursEl || !minutesEl || !secondsEl) return;
 
-  const isSelected = state.selected.has(id);
+  const diff = RELEASE_DATE.getTime() - Date.now();
 
-  // sync the calculator card
-  const card = document.querySelector(`.biz-card[data-id="${id}"]`);
-  if (card){
-    card.classList.toggle("is-selected", isSelected);
-    card.setAttribute("aria-checked", isSelected ? "true" : "false");
-  }
-
-  // sync the map marker + open/closed popup
-  const marker = markersById[id];
-  if (marker){
-    marker.setIcon(createPinIcon(business, isSelected));
-    const popup = marker.getPopup();
-    if (popup) popup.setContent(buildPopupContent(business, isSelected));
-  }
-
-  updateSummary();
-  renderFastestPath();
-}
-window.toggleBusinessSelection = toggleBusinessSelection;
-
-/* ---------------- business calculator ---------------- */
-function renderBizGrid(){
-  const grid = document.getElementById("bizGrid");
-  grid.innerHTML = BUSINESSES.map(b => `
-    <div class="biz-card" data-id="${b.id}" tabindex="0" role="checkbox" aria-checked="false">
-      <div class="biz-card__check">✓</div>
-      <span class="biz-card__badge badge--${b.category}">${b.category}</span>
-      <p class="biz-card__name">${b.name}</p>
-      <p class="biz-card__note">${b.note}</p>
-      <div class="biz-card__stats">
-        <div><span>Price</span><span>${fmt(b.price)}</span></div>
-        <div><span>$ / hour</span><span>${fmt(b.incomePerHour)}</span></div>
-      </div>
-    </div>
-  `).join("");
-
-  grid.querySelectorAll(".biz-card").forEach(card => {
-    const id = card.dataset.id;
-    const trigger = () => toggleBusinessSelection(id);
-    card.addEventListener("click", trigger);
-    card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " "){ e.preventDefault(); trigger(); } });
-  });
-}
-
-function getSelectedBusinesses(){
-  return BUSINESSES.filter(b => state.selected.has(b.id));
-}
-
-function updateSummary(){
-  const chosen = getSelectedBusinesses();
-  const totalPrice = chosen.reduce((s, b) => s + b.price, 0);
-  const totalIncome = chosen.reduce((s, b) => s + b.incomePerHour, 0);
-  document.getElementById("sumInvest").textContent = fmt(totalPrice);
-  document.getElementById("sumIncome").textContent = fmt(totalIncome) + "/h";
-  const payback = totalIncome > 0 ? totalPrice / totalIncome : null;
-  document.getElementById("sumPayback").textContent = payback ? `${payback.toFixed(1)} h` : "—";
-}
-
-document.getElementById("sendToGoal").addEventListener("click", () => {
-  const chosen = getSelectedBusinesses();
-  const totalIncome = chosen.reduce((s, b) => s + b.incomePerHour, 0);
-  document.getElementById("incomeRate").value = totalIncome;
-  document.getElementById("incomeHint").textContent = chosen.length
-    ? `Auto-filled from ${chosen.length} selected business(es) in the calculator.`
-    : "Tip: go to the calculator and tap \"Use in goal planner\" to fill this in automatically.";
-  showView("view-goal");
-  updateReceipt();
-});
-
-/* ---------------- goal planner ---------------- */
-function renderGoalSelect(){
-  const select = document.getElementById("goalSelect");
-  select.innerHTML = GOALS.map(g => `<option value="${g.id}">${g.name}${g.price ? " — " + fmt(g.price) : ""}</option>`).join("");
-}
-
-function currentGoal(){
-  const id = document.getElementById("goalSelect").value;
-  const goal = GOALS.find(g => g.id === id);
-  if (goal.id === "custom"){
-    const custom = parseFloat(document.getElementById("customGoalAmount").value) || 0;
-    return { name: "Custom goal", price: custom };
-  }
-  return goal;
-}
-
-document.getElementById("goalSelect").addEventListener("change", () => {
-  const isCustom = document.getElementById("goalSelect").value === "custom";
-  document.getElementById("customGoalWrap").hidden = !isCustom;
-  updateReceipt();
-});
-
-["customGoalAmount", "currentCash", "incomeRate"].forEach(id => {
-  document.getElementById(id).addEventListener("input", updateReceipt);
-});
-
-const hoursSlider = document.getElementById("hoursPerDay");
-hoursSlider.addEventListener("input", () => {
-  document.getElementById("hoursPerDayValue").textContent = hoursSlider.value;
-  updateReceipt();
-});
-
-function updateReceipt(){
-  const goal = currentGoal();
-  const cash = parseFloat(document.getElementById("currentCash").value) || 0;
-  const rate = parseFloat(document.getElementById("incomeRate").value) || 0;
-  const hoursPerDay = parseFloat(hoursSlider.value) || 1;
-
-  const remaining = Math.max(goal.price - cash, 0);
-  const hoursNeeded = rate > 0 ? remaining / rate : null;
-  const daysNeeded = hoursNeeded !== null ? hoursNeeded / hoursPerDay : null;
-
-  document.getElementById("rGoalName").textContent = goal.name;
-  document.getElementById("rGoalPrice").textContent = fmt(goal.price);
-  document.getElementById("rCash").textContent = fmt(cash);
-  document.getElementById("rRemaining").textContent = fmt(remaining);
-  document.getElementById("rRate").textContent = fmt(rate) + "/h";
-  document.getElementById("rHours").textContent = hoursNeeded !== null ? hoursNeeded.toFixed(1) + " h" : "—";
-  document.getElementById("rDays").textContent = daysNeeded !== null ? Math.ceil(daysNeeded) + " days" : "—";
-
-  const note = document.getElementById("rNote");
-  if (remaining <= 0){
-    note.textContent = "You can already afford it — time to head to Maze Bank Foreclosures or the garage.";
-  } else if (rate <= 0){
-    note.textContent = "Fill in your hourly income (or pull it from the calculator) to see a timeline.";
-  } else {
-    note.textContent = `At ${hoursPerDay} h/day you'll get there in about ${Math.ceil(daysNeeded)} days. Add more businesses in the calculator to shorten the time.`;
-  }
-
-  renderFastestPath();
-}
-
-/* ---------------- fastest path ---------------- */
-/* Simulates the optimal buying order: starting from your current cash
-   and income rate, it repeatedly checks whether saving up for each
-   remaining business (then benefiting from its added income) reaches
-   the goal sooner than just saving straight for the goal. It buys
-   whichever business helps most, and stops reinvesting the moment
-   nothing left would actually speed things up. */
-function hoursToReach(target, cash, rate){
-  if (cash >= target) return 0;
-  if (rate <= 0) return Infinity;
-  return (target - cash) / rate;
-}
-
-function computeFastestPath(goalPrice, startCash, startRate, ownedIds){
-  let cash = startCash;
-  let rate = startRate;
-  let hours = 0;
-  const buySteps = [];
-  let candidates = BUSINESSES.filter(b => !ownedIds.has(b.id));
-
-  const maxIterations = BUSINESSES.length + 1;
-  while (buySteps.length < maxIterations){
-    const baseline = hoursToReach(goalPrice, cash, rate);
-    if (baseline === 0 || candidates.length === 0) break;
-
-    let best = null;
-    for (const c of candidates){
-      const hoursToBuy = hoursToReach(c.price, cash, rate);
-      if (!isFinite(hoursToBuy)) continue;
-      const cashAfterBuy = Math.max(cash + hoursToBuy * rate - c.price, 0);
-      const rateAfterBuy = rate + c.incomePerHour;
-      const totalHours = hoursToBuy + hoursToReach(goalPrice, cashAfterBuy, rateAfterBuy);
-      if (!best || totalHours < best.totalHours){
-        best = { business: c, hoursToBuy, cashAfterBuy, rateAfterBuy, totalHours, savedHours: baseline - totalHours };
-      }
-    }
-
-    if (!best || !(best.totalHours < baseline)) break;
-
-    buySteps.push({
-      business: best.business,
-      hoursAtPurchase: hours + best.hoursToBuy,
-      rateBefore: rate,
-      rateAfter: best.rateAfterBuy,
-      daysSaved: best.savedHours
-    });
-
-    hours += best.hoursToBuy;
-    cash = best.cashAfterBuy;
-    rate = best.rateAfterBuy;
-    candidates = candidates.filter(c => c.id !== best.business.id);
-  }
-
-  const finalHours = hours + hoursToReach(goalPrice, cash, rate);
-  return { buySteps, finalHours, finalRate: rate };
-}
-
-function renderFastestPath(){
-  const container = document.getElementById("fastestPath");
-  if (!container) return;
-
-  const goal = currentGoal();
-  const cash = parseFloat(document.getElementById("currentCash").value) || 0;
-  const rate = parseFloat(document.getElementById("incomeRate").value) || 0;
-  const hoursPerDay = parseFloat(hoursSlider.value) || 1;
-  const ownedIds = state.selected;
-
-  if (!goal.price || goal.price <= 0){
-    container.innerHTML = `<p class="strategy-empty">Choose or enter a goal above to see the fastest path to it.</p>`;
-    return;
-  }
-  if (cash >= goal.price){
-    container.innerHTML = `<p class="strategy-empty">You can already afford this — no plan needed, go buy it.</p>`;
+  if (diff <= 0){
+    daysEl.textContent = "000";
+    hoursEl.textContent = "00";
+    minutesEl.textContent = "00";
+    secondsEl.textContent = "00";
+    if (noteEl) noteEl.textContent = "Release day is here (or has passed) — time for Leonida.";
     return;
   }
 
-  const noPurchaseHours = hoursToReach(goal.price, cash, rate);
+  const totalSeconds = Math.floor(diff / 1000);
+  const days = Math.floor(totalSeconds / 86400);
+  const hours = Math.floor((totalSeconds % 86400) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
 
-  if (rate <= 0){
-    const cheapestAffordable = BUSINESSES.filter(b => !ownedIds.has(b.id) && b.price <= cash);
-    if (cheapestAffordable.length === 0){
-      container.innerHTML = `<p class="strategy-empty">You don't have any income yet — check a business above or enter an hourly rate to see a path.</p>`;
-      return;
-    }
-  }
-
-  const { buySteps, finalHours } = computeFastestPath(goal.price, cash, rate, ownedIds);
-
-  if (buySteps.length === 0){
-    const daysNeeded = isFinite(finalHours) ? Math.ceil(finalHours / hoursPerDay) : null;
-    container.innerHTML = `<p class="strategy-empty">Nothing left to buy would get you there faster — just save straight for <strong>${goal.name}</strong>.${daysNeeded !== null ? ` At your current rate that's about ${daysNeeded} day${daysNeeded === 1 ? "" : "s"}.` : ""}</p>`;
-    return;
-  }
-
-  const stepsHtml = buySteps.map((s, i) => `
-    <li>
-      <strong>Step ${i + 1}:</strong> Save up for the <strong>${s.business.name}</strong> (about ${Math.ceil(s.hoursAtPurchase / hoursPerDay)} day${Math.ceil(s.hoursAtPurchase / hoursPerDay) === 1 ? "" : "s"} from now), then buy it.
-      <span class="strategy-rate">Rate jumps ${fmt(s.rateBefore)}/h → ${fmt(s.rateAfter)}/h — trims about ${(s.daysSaved / hoursPerDay).toFixed(1)} days off the rest of your timeline.</span>
-    </li>
-  `).join("");
-
-  const totalDays = Math.ceil(finalHours / hoursPerDay);
-  const noPurchaseDays = isFinite(noPurchaseHours) ? Math.ceil(noPurchaseHours / hoursPerDay) : null;
-  const daysFaster = noPurchaseDays !== null ? noPurchaseDays - totalDays : null;
-
-  container.innerHTML = `
-    <ol class="strategy-list">
-      ${stepsHtml}
-      <li class="is-final"><strong>Step ${buySteps.length + 1}:</strong> From there, save straight for <strong>${goal.name}</strong> — no more purchases needed.</li>
-    </ol>
-    <p class="strategy-summary">Following this order gets you to <strong>${goal.name}</strong> in about <strong>${totalDays} days</strong>${daysFaster && daysFaster > 0 ? ` — roughly ${daysFaster} day${daysFaster === 1 ? "" : "s"} faster than just saving with what you've got now.` : "."}</p>
-  `;
-}
-
-/* ---------------- home map ---------------- */
-/* Leaflet with a flat, non-geographic coordinate system (CRS.Simple)
-   over a generic placeholder image. Swap map-placeholder.svg for a
-   real map once real GTA 6 location data exists. */
-function createPinIcon(business, isSelected){
-  return L.divIcon({
-    className: "",
-    html: `<div class="map-pin map-pin--${business.category}${isSelected ? " is-selected" : ""}"><span>$</span></div>`,
-    iconSize: [30, 30],
-    iconAnchor: [15, 28],
-    popupAnchor: [0, -26]
-  });
-}
-
-function buildPopupContent(business, isSelected){
-  return `
-    <span class="map-popup__badge badge--${business.category}">${business.category}</span>
-    <p class="map-popup__name">${business.name}</p>
-    <div class="map-popup__stats">
-      <div><span>Price</span><span>${fmt(business.price)}</span></div>
-      <div><span>$ / hour</span><span>${fmt(business.incomePerHour)}</span></div>
-    </div>
-    <button class="map-popup__btn${isSelected ? " is-selected" : ""}" onclick="window.toggleBusinessSelection('${business.id}')">
-      ${isSelected ? "✓ Added — tap to remove" : "Add to my planner"}
-    </button>
-  `;
-}
-
-function initMap(){
-  const bounds = [[0, 0], [700, 1000]];
-  leafletMap = L.map("homeMap", {
-    crs: L.CRS.Simple,
-    minZoom: -1,
-    maxZoom: 2,
-    zoomSnap: 0.25,
-    attributionControl: false
-  });
-
-  L.imageOverlay("map-placeholder.svg", bounds).addTo(leafletMap);
-  leafletMap.fitBounds(bounds);
-  leafletMap.setMaxBounds(bounds);
-
-  BUSINESSES.forEach(b => {
-    const marker = L.marker([b.mapY, b.mapX], {
-      icon: createPinIcon(b, state.selected.has(b.id))
-    }).addTo(leafletMap);
-    marker.bindPopup(buildPopupContent(b, state.selected.has(b.id)), { className: "" });
-    markersById[b.id] = marker;
-  });
+  daysEl.textContent = String(days).padStart(3, "0");
+  hoursEl.textContent = String(hours).padStart(2, "0");
+  minutesEl.textContent = String(minutes).padStart(2, "0");
+  secondsEl.textContent = String(seconds).padStart(2, "0");
 }
 
 /* ---------------- init ---------------- */
-renderBizGrid();
-renderGoalSelect();
-updateSummary();
-updateReceipt();
-
-try {
-  initMap();
-} catch (err) {
-  console.warn("HeistFile: map failed to load", err);
-  const mapEl = document.getElementById("homeMap");
-  if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
-}
+updateCountdown();
+setInterval(updateCountdown, 1000);
