@@ -156,9 +156,67 @@ function propertyCardTemplate(p){
   `;
 }
 
+/* ---------------- Relationship map (Wiki > Characters) ----------------
+   x/y are percentages (0-100) of the .familytree container, so the
+   diagram scales with any screen size. To add a character once Rockstar
+   confirms one: add a row to CHARACTERS with a free x/y spot, then a row
+   to RELATIONSHIPS linking their id to whoever they're connected to. */
+
+const CHARACTERS = [
+  { id: "jason", name: "Jason Duval", role: "Protagonist", x: 32, y: 50 },
+  { id: "lucia", name: "Lucia Caminos", role: "Protagonist", x: 68, y: 50 }
+];
+
+const RELATIONSHIPS = [
+  { from: "jason", to: "lucia", label: "Partners & accomplices" }
+];
+
+function renderFamilyTree(){
+  const container = document.getElementById("familyTree");
+  const svg = document.getElementById("familyTreeLines");
+  if (!container || !svg) return;
+
+  container.querySelectorAll(".familytree__node, .familytree__label").forEach(el => el.remove());
+  svg.innerHTML = "";
+
+  const byId = Object.fromEntries(CHARACTERS.map(c => [c.id, c]));
+
+  RELATIONSHIPS.forEach(rel => {
+    const a = byId[rel.from];
+    const b = byId[rel.to];
+    if (!a || !b) return;
+
+    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+    line.setAttribute("x1", a.x + "%");
+    line.setAttribute("y1", a.y + "%");
+    line.setAttribute("x2", b.x + "%");
+    line.setAttribute("y2", b.y + "%");
+    svg.appendChild(line);
+
+    if (rel.label){
+      const label = document.createElement("span");
+      label.className = "familytree__label";
+      label.style.left = ((a.x + b.x) / 2) + "%";
+      label.style.top = ((a.y + b.y) / 2) + "%";
+      label.textContent = rel.label;
+      container.appendChild(label);
+    }
+  });
+
+  CHARACTERS.forEach(c => {
+    const node = document.createElement("div");
+    node.className = "familytree__node";
+    node.style.left = c.x + "%";
+    node.style.top = c.y + "%";
+    node.innerHTML = `${c.name}<small>${c.role}</small>`;
+    container.appendChild(node);
+  });
+}
+
 /* ---------------- init ---------------- */
 updateCountdown();
 setInterval(updateCountdown, 1000);
+renderFamilyTree();
 renderDataSection(VEHICLES, "vehicleGrid", "vehicleEmpty", vehicleCardTemplate);
 renderDataSection(WEAPONS, "weaponGrid", "weaponEmpty", weaponCardTemplate);
 renderDataSection(PROPERTIES, "propertyGrid", "propertyEmpty", propertyCardTemplate);
