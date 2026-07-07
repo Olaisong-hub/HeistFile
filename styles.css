@@ -560,6 +560,9 @@ html, body{
   border-radius: 8px;
   border-left: 3px solid var(--pink);
 }
+.strategy-list li.is-final{
+  border-left-color: var(--cyan);
+}
 .strategy-list strong{ font-family: 'IBM Plex Mono', monospace; }
 .strategy-rate{
   display: block;
