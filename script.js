@@ -155,7 +155,7 @@ function toggleBusinessSelection(id){
   }
 
   updateSummary();
-  renderHeistStrategy();
+  renderFastestPath();
 }
 window.toggleBusinessSelection = toggleBusinessSelection;
 
@@ -206,7 +206,6 @@ document.getElementById("sendToGoal").addEventListener("click", () => {
     : "Tip: go to the calculator and tap \"Use in goal planner\" to fill this in automatically.";
   showView("view-goal");
   updateReceipt();
-  renderHeistStrategy();
 });
 
 /* ---------------- goal planner ---------------- */
@@ -267,37 +266,121 @@ function updateReceipt(){
   } else {
     note.textContent = `At ${hoursPerDay} h/day you'll get there in about ${Math.ceil(daysNeeded)} days. Add more businesses in the calculator to shorten the time.`;
   }
+
+  renderFastestPath();
 }
 
-/* ---------------- heist strategy ---------------- */
-/* Turns whichever businesses are currently checked in the calculator
-   into a short, ordered earning loop — highest hourly income first. */
-function renderHeistStrategy(){
-  const container = document.getElementById("heistStrategy");
+/* ---------------- fastest path ---------------- */
+/* Simulates the optimal buying order: starting from your current cash
+   and income rate, it repeatedly checks whether saving up for each
+   remaining business (then benefiting from its added income) reaches
+   the goal sooner than just saving straight for the goal. It buys
+   whichever business helps most, and stops reinvesting the moment
+   nothing left would actually speed things up. */
+function hoursToReach(target, cash, rate){
+  if (cash >= target) return 0;
+  if (rate <= 0) return Infinity;
+  return (target - cash) / rate;
+}
+
+function computeFastestPath(goalPrice, startCash, startRate, ownedIds){
+  let cash = startCash;
+  let rate = startRate;
+  let hours = 0;
+  const buySteps = [];
+  let candidates = BUSINESSES.filter(b => !ownedIds.has(b.id));
+
+  const maxIterations = BUSINESSES.length + 1;
+  while (buySteps.length < maxIterations){
+    const baseline = hoursToReach(goalPrice, cash, rate);
+    if (baseline === 0 || candidates.length === 0) break;
+
+    let best = null;
+    for (const c of candidates){
+      const hoursToBuy = hoursToReach(c.price, cash, rate);
+      if (!isFinite(hoursToBuy)) continue;
+      const cashAfterBuy = Math.max(cash + hoursToBuy * rate - c.price, 0);
+      const rateAfterBuy = rate + c.incomePerHour;
+      const totalHours = hoursToBuy + hoursToReach(goalPrice, cashAfterBuy, rateAfterBuy);
+      if (!best || totalHours < best.totalHours){
+        best = { business: c, hoursToBuy, cashAfterBuy, rateAfterBuy, totalHours, savedHours: baseline - totalHours };
+      }
+    }
+
+    if (!best || !(best.totalHours < baseline)) break;
+
+    buySteps.push({
+      business: best.business,
+      hoursAtPurchase: hours + best.hoursToBuy,
+      rateBefore: rate,
+      rateAfter: best.rateAfterBuy,
+      daysSaved: best.savedHours
+    });
+
+    hours += best.hoursToBuy;
+    cash = best.cashAfterBuy;
+    rate = best.rateAfterBuy;
+    candidates = candidates.filter(c => c.id !== best.business.id);
+  }
+
+  const finalHours = hours + hoursToReach(goalPrice, cash, rate);
+  return { buySteps, finalHours, finalRate: rate };
+}
+
+function renderFastestPath(){
+  const container = document.getElementById("fastestPath");
   if (!container) return;
 
-  const chosen = getSelectedBusinesses()
-    .slice()
-    .sort((a, b) => b.incomePerHour - a.incomePerHour)
-    .slice(0, 3);
+  const goal = currentGoal();
+  const cash = parseFloat(document.getElementById("currentCash").value) || 0;
+  const rate = parseFloat(document.getElementById("incomeRate").value) || 0;
+  const hoursPerDay = parseFloat(hoursSlider.value) || 1;
+  const ownedIds = state.selected;
 
-  if (chosen.length === 0){
-    container.innerHTML = `<p class="strategy-empty">Select a couple of businesses in the calculator (or tap pins on the map) and your personalized earning loop will show up here.</p>`;
+  if (!goal.price || goal.price <= 0){
+    container.innerHTML = `<p class="strategy-empty">Choose or enter a goal above to see the fastest path to it.</p>`;
+    return;
+  }
+  if (cash >= goal.price){
+    container.innerHTML = `<p class="strategy-empty">You can already afford this — no plan needed, go buy it.</p>`;
     return;
   }
 
-  const steps = chosen.map((b, i) => `
+  const noPurchaseHours = hoursToReach(goal.price, cash, rate);
+
+  if (rate <= 0){
+    const cheapestAffordable = BUSINESSES.filter(b => !ownedIds.has(b.id) && b.price <= cash);
+    if (cheapestAffordable.length === 0){
+      container.innerHTML = `<p class="strategy-empty">You don't have any income yet — check a business above or enter an hourly rate to see a path.</p>`;
+      return;
+    }
+  }
+
+  const { buySteps, finalHours } = computeFastestPath(goal.price, cash, rate, ownedIds);
+
+  if (buySteps.length === 0){
+    const daysNeeded = isFinite(finalHours) ? Math.ceil(finalHours / hoursPerDay) : null;
+    container.innerHTML = `<p class="strategy-empty">Nothing left to buy would get you there faster — just save straight for <strong>${goal.name}</strong>.${daysNeeded !== null ? ` At your current rate that's about ${daysNeeded} day${daysNeeded === 1 ? "" : "s"}.` : ""}</p>`;
+    return;
+  }
+
+  const stepsHtml = buySteps.map((s, i) => `
     <li>
-      <strong>Step ${i + 1}:</strong> ${b.action}.
-      <span class="strategy-rate">${fmt(b.incomePerHour)}/h</span>
+      <strong>Step ${i + 1}:</strong> Save up for the <strong>${s.business.name}</strong> (about ${Math.ceil(s.hoursAtPurchase / hoursPerDay)} day${Math.ceil(s.hoursAtPurchase / hoursPerDay) === 1 ? "" : "s"} from now), then buy it.
+      <span class="strategy-rate">Rate jumps ${fmt(s.rateBefore)}/h → ${fmt(s.rateAfter)}/h — trims about ${(s.daysSaved / hoursPerDay).toFixed(1)} days off the rest of your timeline.</span>
     </li>
   `).join("");
 
-  const totalRate = chosen.reduce((s, b) => s + b.incomePerHour, 0);
+  const totalDays = Math.ceil(finalHours / hoursPerDay);
+  const noPurchaseDays = isFinite(noPurchaseHours) ? Math.ceil(noPurchaseHours / hoursPerDay) : null;
+  const daysFaster = noPurchaseDays !== null ? noPurchaseDays - totalDays : null;
 
   container.innerHTML = `
-    <ol class="strategy-list">${steps}</ol>
-    <p class="strategy-summary">Loop these ${chosen.length} together and you're pulling in roughly <strong>${fmt(totalRate)}/h</strong> combined. Kick off the passive businesses first, then fill any cooldown with the active contract above — repeat every in-game day (about 48 real-time minutes) for the best results.</p>
+    <ol class="strategy-list">
+      ${stepsHtml}
+      <li class="is-final"><strong>Step ${buySteps.length + 1}:</strong> From there, save straight for <strong>${goal.name}</strong> — no more purchases needed.</li>
+    </ol>
+    <p class="strategy-summary">Following this order gets you to <strong>${goal.name}</strong> in about <strong>${totalDays} days</strong>${daysFaster && daysFaster > 0 ? ` — roughly ${daysFaster} day${daysFaster === 1 ? "" : "s"} faster than just saving with what you've got now.` : "."}</p>
   `;
 }
 
@@ -357,7 +440,6 @@ renderBizGrid();
 renderGoalSelect();
 updateSummary();
 updateReceipt();
-renderHeistStrategy();
 
 try {
   initMap();
