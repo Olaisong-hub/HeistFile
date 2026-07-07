@@ -353,6 +353,65 @@ html, body{
   letter-spacing: 0.01em;
   margin: 44px 0 16px;
 }
+.subsection-title--flush{ margin-top: 0; }
+
+/* ---------- relationship map / family tree ---------- */
+.familytree{
+  position: relative;
+  min-height: 220px;
+  margin: 8px 0 8px;
+  padding: 20px 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+.familytree__lines{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.familytree__lines line{
+  stroke: var(--cyan);
+  stroke-opacity: 0.5;
+  stroke-width: 1.5;
+  stroke-dasharray: 5 5;
+}
+.familytree__node{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--paper);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-align: center;
+  white-space: nowrap;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+}
+.familytree__node small{
+  display: block;
+  font-weight: 500;
+  color: var(--ink-soft);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 3px;
+}
+.familytree__label{
+  position: absolute;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  color: var(--cyan);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  white-space: nowrap;
+}
 
 /* ---------- fakta view ---------- */
 #view-facts, #view-moneyguide, #view-wiki{ padding: 56px 0 80px; }
@@ -582,4 +641,7 @@ html, body{
   .timeline li{ flex-direction: column; gap: 4px; }
   .timeline time{ min-width: 0; }
   .subtab{ padding: 6px 12px; font-size: 11.5px; }
+  .familytree{ min-height: 260px; }
+  .familytree__node{ padding: 8px 12px; font-size: 11px; }
+  .familytree__label{ font-size: 9.5px; padding: 2px 8px; }
 }
