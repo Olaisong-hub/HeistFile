@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HeistFile — Unofficial GTA Online Money Guide</title>
-<meta name="description" content="Work out the fastest route to your next million in GTA Online. Business calculator and goal planner.">
+<title>HeistFile — GTA 6 Countdown &amp; Confirmed Facts</title>
+<meta name="description" content="Countdown to GTA 6 (November 19, 2026) and confirmed facts about the release, characters, and editions — straight from Rockstar, no rumors.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,9 +18,9 @@
   <div class="wrap topbar__inner">
     <a href="#home" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
     <nav class="tabs" role="tablist" aria-label="Page navigation">
-      <button class="tab is-active" data-target="view-hem" role="tab" aria-selected="true">Home</button>
-      <button class="tab" data-target="view-calc" role="tab" aria-selected="false">Properties &amp; Business</button>
-      <button class="tab" data-target="view-goal" role="tab" aria-selected="false">Goal Planner</button>
+      <button class="tab is-active" data-target="view-home" role="tab" aria-selected="true">Home</button>
+      <button class="tab" data-target="view-facts" role="tab" aria-selected="false">Facts</button>
+      <button class="tab" data-target="view-characters" role="tab" aria-selected="false">Characters</button>
     </nav>
   </div>
 </header>
@@ -29,122 +28,133 @@
 <main>
 
   <!-- ============ HOME ============ -->
-  <section id="view-hem" class="view is-active">
+  <section id="view-home" class="view is-active">
     <section class="hero wrap">
-      <p class="eyebrow">CASE FILE #6919 — UNOFFICIAL GAME GUIDE, GTA ONLINE</p>
-      <h1 class="hero__title">STOP GUESSING.<br>START COUNTING.</h1>
-      <p class="hero__sub">Two tools. One to compare which properties and businesses actually pay off — and one that works out exactly how many hours stand between you and your next purchase.</p>
+      <p class="eyebrow">CASE FILE #6919 — COUNTDOWN TO LEONIDA</p>
+      <h1 class="hero__title">STOP GUESSING.<br>START COUNTING DOWN.</h1>
+      <p class="hero__sub">Confirmed facts about GTA 6 — nothing else. Release, characters, and editions straight from Rockstar, updated as more gets revealed.</p>
       <div class="hero__cta">
-        <button class="btn btn--primary" data-target="view-calc">Open the calculator</button>
-        <button class="btn btn--ghost" data-target="view-goal">Plan my goal</button>
+        <button class="btn btn--primary" data-target="view-facts">See confirmed facts</button>
+        <button class="btn btn--ghost" data-target="view-characters">Meet Jason &amp; Lucia</button>
       </div>
-      <div id="homeMap" class="home-map" role="application" aria-label="Interactive property map"></div>
-      <p class="map-caption">Tap a pin to see price and hourly income — add it straight to your planner.</p>
+
+      <div class="countdown" id="countdown" role="timer" aria-live="off">
+        <div class="countdown__unit">
+          <div class="countdown__value" id="cdDays">000</div>
+          <div class="countdown__label">Days</div>
+        </div>
+        <div class="countdown__unit">
+          <div class="countdown__value" id="cdHours">00</div>
+          <div class="countdown__label">Hours</div>
+        </div>
+        <div class="countdown__unit">
+          <div class="countdown__value" id="cdMinutes">00</div>
+          <div class="countdown__label">Minutes</div>
+        </div>
+        <div class="countdown__unit">
+          <div class="countdown__value" id="cdSeconds">00</div>
+          <div class="countdown__label">Seconds</div>
+        </div>
+      </div>
+      <p class="countdown__note" id="cdNote">Counting down to release day (your local time) — the exact launch time hasn't been confirmed yet.</p>
     </section>
 
-    <section class="wrap intro-grid">
-      <div class="intro-card">
-        <span class="stamp stamp--cyan">01</span>
-        <h3>Compare businesses</h3>
-        <p>Price, category, and realistic hourly income for the businesses that are actually worth the money — not just the ones that look cool.</p>
+    <section class="wrap fact-grid">
+      <div class="fact-card">
+        <span class="stamp stamp--cyan">RELEASE</span>
+        <h3>November 19, 2026</h3>
+        <p>Thursday. The date has held after two official delays — most recently confirmed by Take-Two.</p>
       </div>
-      <div class="intro-card">
-        <span class="stamp stamp--pink">02</span>
-        <h3>Work out your timeline</h3>
-        <p>Enter what you're saving for and what you earn now, and get a clear receipt plus the fastest order to buy your way there.</p>
+      <div class="fact-card">
+        <span class="stamp stamp--pink">PLATFORMS</span>
+        <h3>PS5 &amp; Xbox Series X|S</h3>
+        <p>No PC version confirmed at launch. Rockstar's pattern (GTA V, RDR2) points to PC arriving one to two years later.</p>
       </div>
-      <div class="intro-card">
-        <span class="stamp stamp--green">03</span>
-        <h3>Built to be updated</h3>
-        <p>The site is built for GTA Online today — and will be rebuilt as a GTA 6 guide with real in-game data as soon as the game launches on November 19, 2026.</p>
+      <div class="fact-card">
+        <span class="stamp stamp--green">GAME MODE</span>
+        <h3>Pure single-player</h3>
+        <p>No new GTA Online equivalent confirmed at launch. The current GTA Online (in GTA V) keeps getting updates in parallel.</p>
       </div>
     </section>
   </section>
 
-  <!-- ============ CALCULATOR ============ -->
-  <section id="view-calc" class="view">
+  <!-- ============ FACTS ============ -->
+  <section id="view-facts" class="view">
     <div class="wrap">
-      <p class="eyebrow">TOOL 01</p>
-      <h2 class="section-title">Business Calculator</h2>
-      <p class="section-sub">Check off what you already own or are considering buying. The summary at the bottom works out total investment, combined hourly income, and estimated payback time.</p>
+      <p class="eyebrow">DOSSIER 01</p>
+      <h2 class="section-title">Here's what we know — confirmed by Rockstar</h2>
+      <p class="section-sub">No leaks, no rumors. Everything below comes from Rockstar's own Newswire posts or official storefronts (PlayStation Store / Xbox Store).</p>
 
-      <div class="biz-grid" id="bizGrid"></div>
-    </div>
-
-    <div class="summary-bar" id="summaryBar">
-      <div class="wrap summary-bar__inner">
-        <div class="summary-item">
-          <span class="summary-label">Investment</span>
-          <span class="summary-value" id="sumInvest">$0</span>
+      <div class="fact-grid">
+        <div class="fact-card">
+          <span class="stamp stamp--cyan">01</span>
+          <h3>Release &amp; history</h3>
+          <p>Originally expected fall 2025. Delayed to May 26, 2026. Delayed again to <strong>November 19, 2026</strong>, where it stands today.</p>
         </div>
-        <div class="summary-item">
-          <span class="summary-label">Income / hour</span>
-          <span class="summary-value summary-value--green" id="sumIncome">$0</span>
+        <div class="fact-card">
+          <span class="stamp stamp--pink">02</span>
+          <h3>Editions &amp; price</h3>
+          <p>Standard Edition: $79.99. Ultimate Edition: $99.99. Physical copies ship as a code in the box, no disc.</p>
         </div>
-        <div class="summary-item">
-          <span class="summary-label">Payback</span>
-          <span class="summary-value" id="sumPayback">—</span>
+        <div class="fact-card">
+          <span class="stamp stamp--green">03</span>
+          <h3>Game mode at launch</h3>
+          <p>Rockstar has described GTA 6 as a "singleplayer experience" to IGN and on storefronts. No new GTA Online equivalent is confirmed yet.</p>
         </div>
-        <button class="btn btn--small" id="sendToGoal">Use in goal planner →</button>
+        <div class="fact-card">
+          <span class="stamp stamp--cyan">04</span>
+          <h3>The setting</h3>
+          <p>The state of Leonida, with Vice City — inspired by Miami — as its capital.</p>
+        </div>
       </div>
+
+      <h3 class="subsection-title">Timeline</h3>
+      <ul class="timeline">
+        <li><time>DEC 2023</time><span>First trailer drops, revealing Leonida, Vice City, Jason, and Lucia.</span></li>
+        <li><time>MAY 2025</time><span>Second trailer drops, after the first delay to May 26, 2026.</span></li>
+        <li><time>NOV 2025</time><span>New delay to November 19, 2026, announced just before Take-Two's earnings report.</span></li>
+        <li><time>JUN 2026</time><span>Pre-orders open, price and editions confirmed.</span></li>
+        <li><time class="is-current">NOV 19 2026</time><span>Planned release.</span></li>
+      </ul>
+
+      <h3 class="subsection-title">Sources</h3>
+      <ul class="source-list">
+        <li><a href="https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026" target="_blank" rel="noopener">Rockstar Newswire — release date November 19, 2026</a></li>
+        <li><a href="https://www.rockstargames.com/newswire/article/258aa538o412ok/grand-theft-auto-vi-is-now-coming-may-26-2026" target="_blank" rel="noopener">Rockstar Newswire — earlier date May 26, 2026</a></li>
+      </ul>
+      <p class="section-sub note-block">Everything else circulating right now — vehicles, missions, weapon systems, economy — is leaks and speculation. We won't include it here until Rockstar confirms it themselves.</p>
     </div>
   </section>
 
-  <!-- ============ GOAL PLANNER ============ -->
-  <section id="view-goal" class="view">
-    <div class="wrap goal-layout">
-      <div class="goal-form">
-        <p class="eyebrow">TOOL 02</p>
-        <h2 class="section-title">Goal Planner</h2>
-        <p class="section-sub">Pick what you're aiming for, fill in what you have and what you earn — and we'll work out a receipt plus the fastest order to buy your way there.</p>
-
-        <label class="field-label" for="goalSelect">Goal</label>
-        <select id="goalSelect" class="field"></select>
-
-        <div id="customGoalWrap" class="field-group" hidden>
-          <label class="field-label" for="customGoalAmount">Custom amount ($)</label>
-          <input type="number" id="customGoalAmount" class="field" placeholder="e.g. 5000000" min="0" step="1000">
-        </div>
-
-        <label class="field-label" for="currentCash">What you have today ($)</label>
-        <input type="number" id="currentCash" class="field" placeholder="0" min="0" step="1000" value="0">
-
-        <label class="field-label" for="incomeRate">Your current income ($ / hour)</label>
-        <input type="number" id="incomeRate" class="field" placeholder="0" min="0" step="1000" value="0">
-        <p class="field-hint" id="incomeHint">Tip: go to the calculator and tap "Use in goal planner" to fill this in automatically.</p>
-
-        <label class="field-label" for="hoursPerDay">Play hours per day</label>
-        <input type="range" id="hoursPerDay" class="field field--range" min="0.5" max="8" step="0.5" value="2">
-        <div class="range-value"><span id="hoursPerDayValue">2</span> h/day</div>
-      </div>
-
-      <div class="receipt-wrap">
-        <div class="receipt" id="receipt">
-          <div class="receipt__header">
-            <div class="receipt__title">HEISTFILE RECEIPT</div>
-            <div class="receipt__sub">— unofficial estimate —</div>
-          </div>
-          <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__row"><span>GOAL</span><span id="rGoalName">—</span></div>
-          <div class="receipt__row"><span>PRICE</span><span id="rGoalPrice">$0</span></div>
-          <div class="receipt__row"><span>YOU HAVE</span><span id="rCash">$0</span></div>
-          <div class="receipt__row receipt__row--bold"><span>REMAINING</span><span id="rRemaining">$0</span></div>
-          <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__row"><span>YOUR RATE</span><span id="rRate">$0/h</span></div>
-          <div class="receipt__row"><span>HOURS LEFT</span><span id="rHours">—</span></div>
-          <div class="receipt__row receipt__row--bold"><span>DAYS LEFT</span><span id="rDays">—</span></div>
-          <div class="receipt__divider">— — — — — — — — — — — — — —</div>
-          <div class="receipt__note" id="rNote">Fill in your details on the left.</div>
-          <div class="receipt__barcode" aria-hidden="true"></div>
-        </div>
-      </div>
-    </div>
-
+  <!-- ============ CHARACTERS ============ -->
+  <section id="view-characters" class="view">
     <div class="wrap">
-      <div class="strategy-card" id="strategyCard">
-        <span class="stamp stamp--pink">OPTIMAL ROUTE</span>
-        <h3 class="strategy-title">Fastest Path</h3>
-        <div id="fastestPath"></div>
+      <p class="eyebrow">DOSSIER 02</p>
+      <h2 class="section-title">Characters</h2>
+      <p class="section-sub">Two protagonists, confirmed by Rockstar since the first trailer.</p>
+
+      <div class="dossier-grid">
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">ACTIVE</span>
+          <h3 class="dossier-card__name">Jason Duval</h3>
+          <p class="dossier-card__role">Protagonist — Playable</p>
+          <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
+          <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
+          <div class="dossier-card__row"><span>Relationship</span><span>Lucia Caminos</span></div>
+          <p class="dossier-card__note">One of GTA 6's two playable protagonists. Jason and Lucia are pulled together into a criminal conspiracy in Leonida.</p>
+          <div class="dossier-card__barcode" aria-hidden="true"></div>
+        </div>
+
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">ACTIVE</span>
+          <h3 class="dossier-card__name">Lucia Caminos</h3>
+          <p class="dossier-card__role">Protagonist — Playable</p>
+          <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
+          <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
+          <div class="dossier-card__row"><span>Relationship</span><span>Jason Duval</span></div>
+          <p class="dossier-card__note">The series' first female protagonist in the main line. Playable solo and alongside Jason.</p>
+          <div class="dossier-card__barcode" aria-hidden="true"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -153,11 +163,10 @@
 
 <footer class="footer">
   <div class="wrap footer__inner">
-    <p><strong>HeistFile</strong> is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. All prices and income figures are approximate community-based estimates and may change with game updates — always double-check in game.</p>
+    <p><strong>HeistFile</strong> is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. All facts here are sourced from Rockstar's official announcements and are subject to change — always double-check against Rockstar's Newswire. Last updated: July 7, 2026.</p>
   </div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
