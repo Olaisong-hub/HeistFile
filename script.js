@@ -8,7 +8,7 @@
    and the weapon/vehicle databases.
    =========================================================== */
 
-/* ---------------- top-level navigation ---------------- */
+/* ---------------- top-level navigation ---------------- */ 
 function showView(targetId){
   document.querySelectorAll(".view").forEach(v => v.classList.toggle("is-active", v.id === targetId));
   document.querySelectorAll(".tab").forEach(t => {
