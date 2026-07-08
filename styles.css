@@ -231,6 +231,10 @@ html, body{
   .chooser{ grid-template-columns: 1fr 1fr; }
   .chooser__half{ padding: 52px 38px; min-height: 300px; justify-content: center; }
 }
+.chooser--quad .chooser__half{ min-height: 0; }
+@media (min-width: 640px){
+  .chooser--quad .chooser__half{ padding: 36px 30px; min-height: 220px; justify-content: flex-start; }
+}
 
 .btn{
   font-family: 'Inter', sans-serif;
@@ -623,6 +627,135 @@ html, body{
   padding-top: 8px;
   margin-top: 10px;
 }
+.data-card__desc{
+  font-size: 12.5px;
+  color: var(--text-dim);
+  line-height: 1.5;
+  margin-top: 8px;
+}
+
+/* ---------- rumor / unconfirmed leak block ---------- */
+.rumor-block{
+  border: 1px dashed rgba(255,122,69,0.5);
+  background: rgba(255,122,69,0.06);
+  border-radius: var(--radius);
+  padding: 22px 22px 24px;
+  margin: 20px 0 32px;
+}
+.rumor-block__stamp{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--orange);
+  border: 1px solid var(--orange);
+  border-radius: 999px;
+  padding: 4px 12px;
+  margin-bottom: 14px;
+  transform: rotate(-1deg);
+}
+.rumor-block ul{
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.rumor-block li{
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+.rumor-block li strong{ color: var(--text); }
+
+/* ---------- home / leonida map ---------- */
+.home-map{
+  width: 100%;
+  height: 360px;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  margin-top: 8px;
+}
+.map-caption{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin: 10px 2px 36px;
+}
+.leaflet-container{
+  background: var(--panel) !important;
+  font-family: 'Inter', sans-serif !important;
+}
+.leaflet-control-zoom a{
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: none !important;
+}
+.leaflet-popup-content-wrapper{
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border-radius: 10px !important;
+  padding: 2px !important;
+}
+.leaflet-popup-tip{ background: var(--paper) !important; }
+.leaflet-popup-content{
+  margin: 12px 14px !important;
+  min-width: 190px;
+}
+.leaflet-popup-close-button{ color: var(--ink-soft) !important; }
+
+.map-pin{
+  width: 28px;
+  height: 28px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  border: 2px solid rgba(16,19,26,0.6);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.map-pin span{
+  transform: rotate(45deg);
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 10px;
+  color: #14090C;
+}
+.map-pin--city{ background: var(--orange); }
+.map-pin--region{ background: var(--cash); }
+.map-pin--county{ background: var(--cyan); }
+
+.map-popup__badge{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-bottom: 8px;
+  background: rgba(53,214,138,0.18);
+  color: #1C6B47;
+}
+.map-popup__name{
+  font-weight: 800;
+  font-size: 15px;
+  margin: 0 0 8px;
+}
+.map-popup__desc{
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+}
 
 /* ---------- footer ---------- */
 .footer{ border-top: 1px solid var(--line); padding: 28px 0 60px; }
@@ -644,4 +777,5 @@ html, body{
   .familytree{ min-height: 260px; }
   .familytree__node{ padding: 8px 12px; font-size: 11px; }
   .familytree__label{ font-size: 9.5px; padding: 2px 8px; }
+  .home-map{ height: 260px; }
 }
