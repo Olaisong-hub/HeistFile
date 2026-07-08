@@ -1,7 +1,11 @@
 /* ===========================================================
-   HEISTFILE — GTA 6 countdown, Money Guide & Wiki
-   NOTE: Only confirmed information from Rockstar is included.
-   See the sources on the Facts page.
+   HEISTFILE — GTA 6 launch guide, characters, map & arsenal
+   NOTE: Confirmed facts come from Rockstar Newswire and
+   Take-Two's financial filings. Everything else in the
+   *_RUMORED-style content lives as plain HTML inside
+   index.html, clearly stamped "unconfirmed" — this file only
+   drives the countdown, the relationship map, the region map,
+   and the weapon/vehicle databases.
    =========================================================== */
 
 /* ---------------- top-level navigation ---------------- */
@@ -13,14 +17,17 @@ function showView(targetId){
     t.setAttribute("aria-selected", active ? "true" : "false");
   });
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+  if (targetId === "view-map" && leonidaMap) {
+    setTimeout(() => leonidaMap.invalidateSize(), 50);
+  }
 }
 
 document.querySelectorAll("[data-target]").forEach(el => {
   el.addEventListener("click", () => showView(el.dataset.target));
 });
 
-/* ---------------- Wiki sub-navigation ---------------- */
-function showWikiCategory(targetId){
+/* ---------------- sub-navigation (Arsenal tabs) ---------------- */
+function showSubview(targetId){
   document.querySelectorAll(".subview").forEach(v => v.classList.toggle("is-active", v.id === targetId));
   document.querySelectorAll(".subtab").forEach(t => {
     const active = t.dataset.subtarget === targetId;
@@ -30,7 +37,7 @@ function showWikiCategory(targetId){
 }
 
 document.querySelectorAll("[data-subtarget]").forEach(el => {
-  el.addEventListener("click", () => showWikiCategory(el.dataset.subtarget));
+  el.addEventListener("click", () => showSubview(el.dataset.subtarget));
 });
 
 /* ---------------- countdown to release ----------------
@@ -70,105 +77,28 @@ function updateCountdown(){
   secondsEl.textContent = String(seconds).padStart(2, "0");
 }
 
-/* ---------------- Wiki data models ----------------
-   Deliberately empty: GTA 6 hasn't released yet (Nov 19, 2026),
-   so there is no confirmed data on vehicles, weapons, or
-   properties. Do NOT fill these in with leaks, rumors, or
-   guesses — only add entries once Rockstar or verified
-   post-release data confirms the details. Shape of each entry
-   shown in the comments below. Characters are handled as plain
-   HTML in index.html since there are only two, confirmed today. */
-
-const VEHICLES = [
-  // { id: "unique-id", name: "Vehicle name", category: "Car | Motorcycle | Boat | Aircraft",
-  //   price: 000000, source: "https://..." }
-];
-
-const WEAPONS = [
-  // { id: "unique-id", name: "Weapon name", category: "Pistol | SMG | Rifle | Melee | ...",
-  //   notes: "short description", source: "https://..." }
-];
-
-const PROPERTIES = [
-  // { id: "unique-id", name: "Property name", category: "Safehouse | Business | ...",
-  //   price: 000000, source: "https://..." }
-];
-
-function formatMoney(amount){
-  return "$" + Number(amount).toLocaleString("en-US");
-}
-
-/* Renders a Wiki data section: shows the locked/empty panel
-   while the array is empty, and swaps to the populated grid
-   the moment entries exist — no other code needs to change
-   when real data lands. */
-function renderDataSection(items, gridId, emptyId, templateFn){
-  const grid = document.getElementById(gridId);
-  const empty = document.getElementById(emptyId);
-  if (!grid || !empty) return;
-
-  if (!items.length){
-    grid.hidden = true;
-    empty.hidden = false;
-    return;
-  }
-  empty.hidden = true;
-  grid.hidden = false;
-  grid.innerHTML = items.map(templateFn).join("");
-}
-
-function vehicleCardTemplate(v){
-  return `
-    <div class="data-card">
-      <span class="stamp stamp--cyan">${v.category}</span>
-      <h3>${v.name}</h3>
-      <div class="data-card__meta">
-        <span>Price</span>
-        <span>${formatMoney(v.price)}</span>
-      </div>
-    </div>
-  `;
-}
-
-function weaponCardTemplate(w){
-  return `
-    <div class="data-card">
-      <span class="stamp stamp--pink">${w.category}</span>
-      <h3>${w.name}</h3>
-      <div class="data-card__meta">
-        <span>Notes</span>
-        <span>${w.notes || "—"}</span>
-      </div>
-    </div>
-  `;
-}
-
-function propertyCardTemplate(p){
-  return `
-    <div class="data-card">
-      <span class="stamp stamp--green">${p.category}</span>
-      <h3>${p.name}</h3>
-      <div class="data-card__meta">
-        <span>Price</span>
-        <span>${formatMoney(p.price)}</span>
-      </div>
-    </div>
-  `;
-}
-
-/* ---------------- Relationship map (Wiki > Characters) ----------------
+/* ---------------- relationship map (Characters) ----------------
    x/y are percentages (0-100) of the .familytree container, so the
-   diagram scales with any screen size. To add a character once Rockstar
-   confirms one: add a row to CHARACTERS with a free x/y spot, then a row
-   to RELATIONSHIPS linking their id to whoever they're connected to. */
-
+   diagram scales with any screen size. */
 const CHARACTERS = [
-  { id: "jason", name: "Jason Duval", role: "Protagonist", x: 32, y: 50 },
-  { id: "lucia", name: "Lucia Caminos", role: "Protagonist", x: 68, y: 50 }
+  { id: "jason",   name: "Jason Duval",       role: "Protagonist",         x: 34, y: 46 },
+  { id: "lucia",   name: "Lucia Caminos",     role: "Protagonist",         x: 66, y: 46 },
+  { id: "cal",     name: "Cal Hampton",       role: "Jason's friend",      x: 12, y: 18 },
+  { id: "brian",   name: "Brian Heder",       role: "Landlord",            x: 12, y: 76 },
+  { id: "boobie",  name: "Boobie Ike",        role: "Businessman",         x: 88, y: 18 },
+  { id: "drequan", name: "Dre'quan Priest",   role: "Local artist",        x: 88, y: 76 },
+  { id: "baeluxe", name: "Bae-Luxe & Roxy",   role: "Social media duo",    x: 50, y: 10 },
+  { id: "raul",    name: "Raul Bautista",     role: "Criminal network",    x: 50, y: 90 }
 ];
 
 const RELATIONSHIPS = [
-  { from: "jason", to: "lucia", label: "Partners & accomplices" }
+  { from: "jason", to: "lucia",   label: "Partners & accomplices" },
+  { from: "jason", to: "cal",     label: "Close friend" },
+  { from: "jason", to: "brian",   label: "Landlord" },
+  { from: "jason", to: "baeluxe", label: "Social circle" },
+  { from: "lucia", to: "boobie",  label: "Business contact" },
+  { from: "lucia", to: "drequan", label: "Local contact" },
+  { from: "lucia", to: "raul",    label: "Criminal network" }
 ];
 
 function renderFamilyTree(){
@@ -213,10 +143,191 @@ function renderFamilyTree(){
   });
 }
 
+/* ---------------- interactive map (confirmed regions) ----------------
+   Leaflet with a flat, non-geographic coordinate system (CRS.Simple)
+   over a community-drawn placeholder layout — Rockstar hasn't shown
+   the official map yet. Coordinates are approximate placement, not
+   precise in-game geography. */
+const REGIONS = [
+  { id: "vicecity",    name: "Vice City",                 type: "city",   mapY: 340, mapX: 500,
+    desc: "The commercial and criminal center of Leonida, inspired by Miami. Includes Vice Beach (North/Mid/South), Port Vice City, and Vice City International Airport." },
+  { id: "leonidakeys", name: "Leonida Keys",               type: "region", mapY: 730, mapX: 610,
+    desc: "A sprawling island chain to the south, mirroring the real Florida Keys." },
+  { id: "grassrivers", name: "Grassrivers",                type: "region", mapY: 510, mapX: 280,
+    desc: "A massive swamp-like wetland region based on the Everglades." },
+  { id: "portgellhorn",name: "Port Gellhorn",              type: "region", mapY: 350, mapX: 740,
+    desc: "An industrial port and working-class town." },
+  { id: "ambrosia",    name: "Ambrosia",                   type: "region", mapY: 330, mapX: 330,
+    desc: "A small inland farming community." },
+  { id: "mountkalaga", name: "Mount Kalaga National Park", type: "region", mapY: 95,  mapX: 390,
+    desc: "A protected nature park in the state's northern reaches." },
+  { id: "vicedale",    name: "Vice Dale County",           type: "county", mapY: 420, mapX: 470,
+    desc: "A parody of Miami-Dade County, covering the metro area and its immediate suburbs." },
+  { id: "leonard",     name: "Leonard County",             type: "county", mapY: 200, mapX: 250,
+    desc: "Located in the northwest, where police vehicles carry unique decals." },
+  { id: "kelly",       name: "Kelly County",                type: "county", mapY: 560, mapX: 230,
+    desc: "Covers most of the southwestern wetland regions." }
+];
+
+let leonidaMap = null;
+
+function createRegionIcon(region){
+  const letter = region.type === "city" ? "C" : region.type === "county" ? "Co" : "R";
+  return L.divIcon({
+    className: "",
+    html: `<div class="map-pin map-pin--${region.type}"><span>${letter}</span></div>`,
+    iconSize: [28, 28],
+    iconAnchor: [14, 26],
+    popupAnchor: [0, -24]
+  });
+}
+
+function buildRegionPopup(region){
+  const label = region.type === "city" ? "Hub City" : region.type === "county" ? "County" : "Region";
+  return `
+    <span class="map-popup__badge">${label}</span>
+    <p class="map-popup__name">${region.name}</p>
+    <p class="map-popup__desc">${region.desc}</p>
+  `;
+}
+
+function initMap(){
+  const bounds = [[0, 0], [900, 1000]];
+  leonidaMap = L.map("leonidaMap", {
+    crs: L.CRS.Simple,
+    minZoom: -1,
+    maxZoom: 2,
+    zoomSnap: 0.25,
+    attributionControl: false
+  });
+
+  L.imageOverlay("map-leonida-placeholder.svg", bounds).addTo(leonidaMap);
+  leonidaMap.fitBounds(bounds);
+  leonidaMap.setMaxBounds(bounds);
+
+  REGIONS.forEach(r => {
+    L.marker([r.mapY, r.mapX], { icon: createRegionIcon(r) })
+      .addTo(leonidaMap)
+      .bindPopup(buildRegionPopup(r));
+  });
+}
+
+function renderRegionGrid(){
+  const grid = document.getElementById("regionGrid");
+  if (!grid) return;
+  grid.innerHTML = REGIONS.map(r => {
+    const stampClass = r.type === "city" ? "stamp--pink" : r.type === "county" ? "stamp--cyan" : "stamp--green";
+    const label = r.type === "city" ? "HUB CITY" : r.type === "county" ? "COUNTY" : "REGION";
+    return `
+      <div class="fact-card">
+        <span class="stamp ${stampClass}">${label}</span>
+        <h3>${r.name}</h3>
+        <p>${r.desc}</p>
+      </div>
+    `;
+  }).join("");
+}
+
+/* ---------------- weapons database ---------------- */
+const WEAPONS = [
+  { name: "Girardi ES9", category: "Pistols & Handguns", basis: "Beretta 92FS-style semi-auto pistol — Jason's primary sidearm." },
+  { name: "Klose K17", category: "Pistols & Handguns", basis: "Glock 17-style pistol, frequently seen with Lucia." },
+  { name: "Capo Pistol", category: "Pistols & Handguns", basis: "Colt M1911-style classic semi-auto pistol." },
+  { name: "Nipper .38", category: "Pistols & Handguns", basis: "Ultra-compact revolver, shown in Lucia's hands on the box art." },
+  { name: "Morgan Revolver", category: "Revolvers", basis: "Smith & Wesson 629-style revolver. Ultimate Edition includes engraved Jason/Lucia versions referencing the original Vice City games' release dates." },
+  { name: "Mustang .357", category: "Revolvers", basis: "Colt Python-style heavy-hitting revolver." },
+  { name: "Duke Carbine", category: "Assault Rifles & Carbines", basis: "AR-15/HK416-style carbine from the fictional Duke Arms Company — a direct lore tie to Red Dead Redemption's weapon makers." },
+  { name: "AK-Style Assault Rifle", category: "Assault Rifles & Carbines", basis: "Classic AK-pattern rifle, wood furniture variant available." },
+  { name: "Service Carbine", category: "Assault Rifles & Carbines", basis: "M16-inspired military carbine." },
+  { name: "MP5-Style SMG", category: "SMGs & Light Machine Guns", basis: "Heckler & Koch MP5-style SMG; Jason's variant carries a red dot sight." },
+  { name: "Micro SMG / MAC-10", category: "SMGs & Light Machine Guns", basis: "MAC-10/Mini Uzi-style rapid-fire SMG. A retro blue variant ships with the Vintage Vice City pre-order pack." },
+  { name: "Combat MG", category: "SMGs & Light Machine Guns", basis: "M249 SAW-style belt-fed light machine gun." },
+  { name: "Remington 700 / Duke Sniper", category: "Shotguns & Sniper Rifles", basis: "Bolt-action sniper rifle." },
+  { name: "Springfield M1A", category: "Shotguns & Sniper Rifles", basis: "M14/M1A-style semi-auto sniper rifle." },
+  { name: "Pump Action Shotgun", category: "Shotguns & Sniper Rifles", basis: "Mossberg 590-style pump shotgun." },
+  { name: "Double-Barreled Shotgun", category: "Shotguns & Sniper Rifles", basis: "Traditional double-barrel shotgun, first spotted with a local hunter NPC." }
+];
+
+const WEAPON_CATEGORY_ORDER = ["Pistols & Handguns", "Revolvers", "Assault Rifles & Carbines", "SMGs & Light Machine Guns", "Shotguns & Sniper Rifles"];
+const WEAPON_STAMPS = ["stamp--cyan", "stamp--pink", "stamp--green"];
+
+function renderGroupedSection(items, order, containerId, stampCycle){
+  const container = document.getElementById(containerId);
+  if (!container) return;
+
+  let stampIndex = 0;
+  container.innerHTML = order.map(category => {
+    const inCategory = items.filter(i => i.category === category);
+    if (!inCategory.length) return "";
+    const stampClass = stampCycle[stampIndex % stampCycle.length];
+    stampIndex++;
+    const cards = inCategory.map(i => `
+      <div class="data-card">
+        <span class="stamp ${stampClass}">${i.exclusive ? "EXCLUSIVE" : "CONFIRMED"}</span>
+        <h3>${i.name}</h3>
+        ${i.exclusive ? `<div class="data-card__meta"><span>Availability</span><span>${i.exclusive}</span></div>` : ""}
+        <p class="data-card__desc">${i.basis}</p>
+      </div>
+    `).join("");
+    return `<h3 class="subsection-title">${category}</h3><div class="data-grid">${cards}</div>`;
+  }).join("");
+}
+
+/* ---------------- vehicles database ---------------- */
+const VEHICLES = [
+  { name: "Bravado Banshee", category: "Super & Sports Cars", basis: "High-performance sports car." },
+  { name: "Grotti Furia", category: "Super & Sports Cars", basis: "Modern Italian supercar." },
+  { name: "Grotti Carbonizzare", category: "Super & Sports Cars", basis: "Modern Italian supercar." },
+  { name: "Grotti Cheetah '95 (Classic)", category: "Super & Sports Cars", basis: "Retro Italian supercar." },
+  { name: "Pfister Comet S2 Cabrio", category: "Super & Sports Cars", basis: "German sports convertible." },
+  { name: "Pfister Comet Retro Custom", category: "Super & Sports Cars", basis: "German sports car, retro custom build." },
+  { name: "Invetero Coquette / Coquette D10", category: "Super & Sports Cars", basis: "American sports car." },
+  { name: "Ubermacht Cypher", category: "Super & Sports Cars", basis: "German performance car." },
+  { name: "Benefactor Schafter V12", category: "Super & Sports Cars", basis: "German luxury performance sedan." },
+  { name: "Albany Buccaneer / Custom", category: "Muscle Cars", basis: "Classic American V8 muscle car." },
+  { name: "Vapid Chino / Custom", category: "Muscle Cars", basis: "Classic American lowrider-style muscle car." },
+  { name: "Vapid Dominator", category: "Muscle Cars", basis: "Classic American muscle car." },
+  { name: "Imponte Phoenix", category: "Muscle Cars", basis: "Classic American muscle car." },
+  { name: "Imponte Ruiner", category: "Muscle Cars", basis: "Street-racing muscle car." },
+  { name: "Declasse Tulip / Tulip M-100", category: "Muscle Cars", basis: "Classic American muscle car." },
+  { name: "Declasse Vigero ZX Convertible", category: "Muscle Cars", basis: "Classic American muscle convertible." },
+  { name: "'55 Vapid Stanier", category: "Muscle Cars", basis: "1955-styled sedan.", exclusive: "Pre-order bonus" },
+  { name: "Vapid Aleutian", category: "SUVs & Off-Road", basis: "Full-size SUV." },
+  { name: "Benefactor Dubsta", category: "SUVs & Off-Road", basis: "Luxury off-road SUV." },
+  { name: "Enus Jubilee", category: "SUVs & Off-Road", basis: "Luxury SUV." },
+  { name: "Dundreary Landstalker XL", category: "SUVs & Off-Road", basis: "Full-size SUV." },
+  { name: "Vapid Caracara 4x4", category: "SUVs & Off-Road", basis: "Off-road pickup truck." },
+  { name: "Maibatsu Sanchez (Dirt Bike)", category: "SUVs & Off-Road", basis: "Off-road dirt bike." },
+  { name: "Nagasaki Blazer (Quad Bike)", category: "SUVs & Off-Road", basis: "All-terrain quad bike." },
+  { name: "'67 Vapid Dominator Buggy", category: "SUVs & Off-Road", basis: "Classic dune buggy.", exclusive: "Ultimate Edition" },
+  { name: "Albany Emperor", category: "Sedans & Motorhomes", basis: "Vintage luxury sedan." },
+  { name: "Karin Intruder", category: "Sedans & Motorhomes", basis: "Everyday family sedan." },
+  { name: "Zirconium Journey II", category: "Sedans & Motorhomes", basis: "Classic motorhome/RV." },
+  { name: "Bravado Police Buffalo STX Pursuit", category: "Emergency Vehicles", basis: "High-speed police pursuit car." },
+  { name: "Bravado Police Gauntlet Interceptor", category: "Emergency Vehicles", basis: "Modern police interceptor." },
+  { name: "Brute Police Riot", category: "Emergency Vehicles", basis: "Armored police riot bus." },
+  { name: "Police Maverick (Helicopter)", category: "Emergency Vehicles", basis: "Police patrol helicopter." },
+  { name: "Shitzu Squalo", category: "Boats & Aircraft", basis: "Motorboat." },
+  { name: "Speedophile Seashark", category: "Boats & Aircraft", basis: "Jet ski / personal watercraft." },
+  { name: "Buzzard Attack Chopper", category: "Boats & Aircraft", basis: "Light attack helicopter." },
+  { name: "Sea Sparrow", category: "Boats & Aircraft", basis: "Light utility helicopter." },
+  { name: "Mammoth Dodo", category: "Boats & Aircraft", basis: "Small seaplane." }
+];
+
+const VEHICLE_CATEGORY_ORDER = ["Super & Sports Cars", "Muscle Cars", "SUVs & Off-Road", "Sedans & Motorhomes", "Emergency Vehicles", "Boats & Aircraft"];
+
 /* ---------------- init ---------------- */
 updateCountdown();
 setInterval(updateCountdown, 1000);
 renderFamilyTree();
-renderDataSection(VEHICLES, "vehicleGrid", "vehicleEmpty", vehicleCardTemplate);
-renderDataSection(WEAPONS, "weaponGrid", "weaponEmpty", weaponCardTemplate);
-renderDataSection(PROPERTIES, "propertyGrid", "propertyEmpty", propertyCardTemplate);
+renderRegionGrid();
+renderGroupedSection(WEAPONS, WEAPON_CATEGORY_ORDER, "weaponCategories", WEAPON_STAMPS);
+renderGroupedSection(VEHICLES, VEHICLE_CATEGORY_ORDER, "vehicleCategories", WEAPON_STAMPS);
+
+try {
+  initMap();
+} catch (err) {
+  console.warn("HeistFile: map failed to load", err);
+  const mapEl = document.getElementById("leonidaMap");
+  if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
+}
