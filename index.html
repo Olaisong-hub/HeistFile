@@ -3,11 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HeistFile — GTA 6 Countdown, Money Guide &amp; Wiki</title>
-<meta name="description" content="Countdown to GTA 6 (November 19, 2026), confirmed facts, a money-making guide, and a wiki — straight from Rockstar, no rumors.">
+<title>HeistFile — GTA 6 Launch Guide, Characters, Map &amp; Arsenal</title>
+<meta name="description" content="Everything confirmed about GTA 6: launch dates and editions, the Jason &amp; Lucia story, an interactive map of Leonida, and every confirmed weapon and vehicle — leaks clearly labeled, nothing invented.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -19,9 +20,10 @@
     <a href="#home" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
     <nav class="tabs" role="tablist" aria-label="Page navigation">
       <button class="tab is-active" data-target="view-home" role="tab" aria-selected="true">Home</button>
-      <button class="tab" data-target="view-facts" role="tab" aria-selected="false">Facts</button>
-      <button class="tab" data-target="view-moneyguide" role="tab" aria-selected="false">Money Guide</button>
-      <button class="tab" data-target="view-wiki" role="tab" aria-selected="false">Wiki</button>
+      <button class="tab" data-target="view-launch" role="tab" aria-selected="false">Launch Guide</button>
+      <button class="tab" data-target="view-characters" role="tab" aria-selected="false">Characters</button>
+      <button class="tab" data-target="view-map" role="tab" aria-selected="false">Map</button>
+      <button class="tab" data-target="view-arsenal" role="tab" aria-selected="false">Arsenal</button>
     </nav>
   </div>
 </header>
@@ -33,25 +35,41 @@
     <section class="hero wrap">
       <p class="eyebrow">CASE FILE #6919 — COUNTDOWN TO LEONIDA</p>
       <h1 class="hero__title">STOP GUESSING.<br>START COUNTING DOWN.</h1>
-      <p class="hero__sub">Confirmed facts about GTA 6 — nothing else. Release, characters, and editions straight from Rockstar, updated as more gets revealed.</p>
+      <p class="hero__sub">Everything confirmed about GTA 6, organized into four dossiers — plus every leak, clearly stamped as unconfirmed so you never mistake a rumor for a fact.</p>
     </section>
 
     <section class="wrap">
-      <div class="chooser">
-        <button class="chooser__half chooser__half--guide" data-target="view-moneyguide">
+      <div class="chooser chooser--quad">
+        <button class="chooser__half chooser__half--guide" data-target="view-launch">
           <span class="chooser__icon" aria-hidden="true">$</span>
-          <span class="chooser__eyebrow">ACTION</span>
-          <h2 class="chooser__title">Money Guide</h2>
-          <p class="chooser__desc">The fastest way to get rich in GTA 6, organized by where you are in the story.</p>
-          <span class="chooser__cta">Enter the guide →</span>
+          <span class="chooser__eyebrow">DOSSIER 01</span>
+          <h2 class="chooser__title">Launch Guide</h2>
+          <p class="chooser__desc">Release date, platforms, editions, pricing, and the financial story behind the biggest launch in the industry.</p>
+          <span class="chooser__cta">Read the guide →</span>
         </button>
 
-        <button class="chooser__half chooser__half--wiki" data-target="view-wiki">
-          <span class="chooser__icon" aria-hidden="true">W</span>
-          <span class="chooser__eyebrow">REFERENCE</span>
-          <h2 class="chooser__title">Wiki</h2>
-          <p class="chooser__desc">Every car, weapon, property, and character — sourced, not guessed.</p>
-          <span class="chooser__cta">Browse the wiki →</span>
+        <button class="chooser__half chooser__half--wiki" data-target="view-characters">
+          <span class="chooser__icon" aria-hidden="true">C</span>
+          <span class="chooser__eyebrow">DOSSIER 02</span>
+          <h2 class="chooser__title">Characters &amp; Story</h2>
+          <p class="chooser__desc">Jason, Lucia, and the Vice City network around them — confirmed bios and clearly-marked leaked details.</p>
+          <span class="chooser__cta">Open the dossiers →</span>
+        </button>
+
+        <button class="chooser__half chooser__half--guide" data-target="view-map">
+          <span class="chooser__icon" aria-hidden="true">M</span>
+          <span class="chooser__eyebrow">DOSSIER 03</span>
+          <h2 class="chooser__title">Interactive Map</h2>
+          <p class="chooser__desc">Leonida's confirmed regions and counties, plus community size estimates and northward-expansion rumors.</p>
+          <span class="chooser__cta">Explore the map →</span>
+        </button>
+
+        <button class="chooser__half chooser__half--wiki" data-target="view-arsenal">
+          <span class="chooser__icon" aria-hidden="true">A</span>
+          <span class="chooser__eyebrow">DOSSIER 04</span>
+          <h2 class="chooser__title">Weapons &amp; Vehicles</h2>
+          <p class="chooser__desc">Every confirmed gun and vehicle, sorted by class, plus the new carry system and next-gen tech underneath it all.</p>
+          <span class="chooser__cta">Browse the arsenal →</span>
         </button>
       </div>
     </section>
@@ -82,194 +100,362 @@
       <div class="fact-card">
         <span class="stamp stamp--cyan">RELEASE</span>
         <h3>November 19, 2026</h3>
-        <p>Thursday. The date has held after two official delays — most recently confirmed by Take-Two.</p>
+        <p>Thursday. The date has held after two official delays, most recently confirmed by Take-Two.</p>
       </div>
       <div class="fact-card">
         <span class="stamp stamp--pink">PLATFORMS</span>
         <h3>PS5 &amp; Xbox Series X|S</h3>
-        <p>No PC version confirmed at launch. Rockstar's pattern (GTA V, RDR2) points to PC arriving one to two years later.</p>
+        <p>No PC version confirmed at launch. Third-party statements point to PC arriving 8–19 months later, at the earliest.</p>
       </div>
       <div class="fact-card">
         <span class="stamp stamp--green">GAME MODE</span>
         <h3>Pure single-player</h3>
-        <p>No new GTA Online equivalent confirmed at launch. The current GTA Online (in GTA V) keeps getting updates in parallel.</p>
+        <p>No online mode ships at launch. Rockstar is selling GTA 6 as a standalone single-player experience.</p>
       </div>
     </section>
   </section>
 
-  <!-- ============ FACTS ============ -->
-  <section id="view-facts" class="view">
+  <!-- ============ 1. LAUNCH GUIDE ============ -->
+  <section id="view-launch" class="view">
     <div class="wrap">
       <p class="eyebrow">DOSSIER 01</p>
-      <h2 class="section-title">Here's what we know — confirmed by Rockstar</h2>
-      <p class="section-sub">No leaks, no rumors. Everything below comes from Rockstar's own Newswire posts or official storefronts (PlayStation Store / Xbox Store).</p>
+      <h2 class="section-title">Launch Facts &amp; Buying Guide</h2>
+      <p class="section-sub">Release history, editions, pricing, and the business story behind the launch — confirmed facts first, rumors clearly separated at the end.</p>
 
+      <h3 class="subsection-title subsection-title--flush">Release &amp; delay history</h3>
+      <ul class="timeline">
+        <li><time>DEC 2023</time><span>First trailer drops, revealing Leonida, Vice City, Jason, and Lucia.</span></li>
+        <li><time>2025</time><span>Originally-planned fall 2025 window slips to May 26, 2026.</span></li>
+        <li><time>NOV 2025</time><span>Delayed a second time, to the current date, to allow further technical polish.</span></li>
+        <li><time>JUN 25 2026</time><span>Pre-orders open globally.</span></li>
+        <li><time>NOV 12 2026</time><span>Pre-load opens for customers who pre-ordered digitally.</span></li>
+        <li><time class="is-current">NOV 19 2026</time><span>Planned release, exclusively on PS5 and Xbox Series X/S.</span></li>
+      </ul>
+
+      <h3 class="subsection-title">Editions &amp; pricing</h3>
       <div class="fact-grid">
         <div class="fact-card">
-          <span class="stamp stamp--cyan">01</span>
-          <h3>Release &amp; history</h3>
-          <p>Originally expected fall 2025. Delayed to May 26, 2026. Delayed again to <strong>November 19, 2026</strong>, where it stands today.</p>
+          <span class="stamp stamp--cyan">$79.99</span>
+          <h3>Standard Edition</h3>
+          <p>Code-in-box (physical) or digital. The base game as a pure single-player experience.</p>
         </div>
         <div class="fact-card">
-          <span class="stamp stamp--pink">02</span>
-          <h3>Editions &amp; price</h3>
-          <p>Standard Edition: $79.99. Ultimate Edition: $99.99. Physical copies ship as a code in the box, no disc.</p>
+          <span class="stamp stamp--pink">$99.99</span>
+          <h3>Ultimate Edition</h3>
+          <p>Code-in-box (physical) or digital. Adds exclusive vehicles, weapons, cosmetic outfits, side missions, and Customization Hubs.</p>
         </div>
         <div class="fact-card">
-          <span class="stamp stamp--green">03</span>
-          <h3>Game mode at launch</h3>
-          <p>Rockstar has described GTA 6 as a "singleplayer experience" to IGN and on storefronts. No new GTA Online equivalent is confirmed yet.</p>
+          <span class="stamp stamp--green">$20.00</span>
+          <h3>Ultimate Edition Upgrade</h3>
+          <p>Digital only, PlayStation Store. Upgrades an existing Standard Edition purchase to Ultimate.</p>
         </div>
         <div class="fact-card">
-          <span class="stamp stamp--cyan">04</span>
-          <h3>The setting</h3>
-          <p>The state of Leonida, with Vice City — inspired by Miami — as its capital.</p>
+          <span class="stamp stamp--cyan">FREE</span>
+          <h3>Vintage Vice City Pack</h3>
+          <p>Bonus for every pre-order made before November 20, 2026. Includes 1980s retro cosmetics, a '55 Vapid Stanier sedan, a Shore Court garage near Ocean Beach, and Tommy Vercetti-inspired weapon skins.</p>
+        </div>
+      </div>
+      <p class="section-sub note-block">A widely-discussed decision: physical copies ship as a download code in the case, not a disc — intended to reduce pre-release leaks and limit the resale market.</p>
+
+      <h3 class="subsection-title">The business behind the launch</h3>
+      <div class="fact-grid">
+        <div class="fact-card">
+          <span class="stamp stamp--pink">FY2026</span>
+          <h3>$6.65B net revenue</h3>
+          <p>Take-Two Interactive (NASDAQ: TTWO) reported this for fiscal year 2026 in its financial filings.</p>
+        </div>
+        <div class="fact-card">
+          <span class="stamp stamp--cyan">FY2027</span>
+          <h3>$8.0–8.2B forecast</h3>
+          <p>Take-Two's guidance for fiscal year 2027 (April 2026–March 2027), driven directly by the GTA 6 launch.</p>
+        </div>
+        <div class="fact-card">
+          <span class="stamp stamp--green">PRE-ORDERS</span>
+          <h3>Opened June 25, 2026</h3>
+          <p>Digital pre-load for pre-ordered copies opens November 12, 2026, a week ahead of release.</p>
+        </div>
+      </div>
+      <p class="section-sub note-block">Source: Take-Two Interactive investor relations / FY2026 financial filings.</p>
+
+      <h3 class="subsection-title">Multiplayer &amp; social media</h3>
+      <p class="section-sub">GTA 6 ships as a pure single-player title. Here's what's confirmed about its digital-world systems, and what's rumored about multiplayer's future.</p>
+      <div class="fact-grid">
+        <div class="fact-card">
+          <span class="stamp stamp--cyan">CONFIRMED</span>
+          <h3>An in-world social network</h3>
+          <p>A fictional network simulating platforms like TikTok/Instagram in real time. Following influencers, watching viral clips, or reading comment threads can reveal hidden locations, random events, and unique side missions.</p>
+        </div>
+        <div class="fact-card">
+          <span class="stamp stamp--pink">CONFIRMED</span>
+          <h3>No online mode at launch</h3>
+          <p>There is no multiplayer or online mode on November 19, 2026. The existing GTA Online (inside GTA V) reportedly earns over $500M a year from microtransactions — roughly $1M a day — giving Rockstar room to focus entirely on the single-player campaign.</p>
         </div>
       </div>
 
-      <h3 class="subsection-title">Timeline</h3>
-      <ul class="timeline">
-        <li><time>DEC 2023</time><span>First trailer drops, revealing Leonida, Vice City, Jason, and Lucia.</span></li>
-        <li><time>MAY 2025</time><span>Second trailer drops, after the first delay to May 26, 2026.</span></li>
-        <li><time>NOV 2025</time><span>New delay to November 19, 2026, announced just before Take-Two's earnings report.</span></li>
-        <li><time>JUN 2026</time><span>Pre-orders open, price and editions confirmed.</span></li>
-        <li><time class="is-current">NOV 19 2026</time><span>Planned release.</span></li>
-      </ul>
+      <div class="rumor-block">
+        <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+        <ul>
+          <li><strong>Multiplayer availability:</strong> new multiplayer files are reportedly being prepared as a separate Xbox Store download.</li>
+          <li><strong>Multiplayer release date:</strong> not communicated by Rockstar — rumored for December 2026, about a month after the base game.</li>
+          <li><strong>Server capacity:</strong> not officially set — early internal test files reportedly indicate support for up to 32 concurrent players per lobby.</li>
+          <li><strong>Pricing:</strong> not officially set — may be sold as a separate standalone product for around $29.99.</li>
+          <li><strong>GTA+ integration:</strong> confirmed pre-order bonuses for subscribers today; rumors suggest GTA+ could later be required for playtime or unlock exclusive in-game economic perks.</li>
+        </ul>
+      </div>
+
+      <h3 class="subsection-title">Other unconfirmed rumors</h3>
+      <div class="rumor-block">
+        <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+        <ul>
+          <li><strong>Day-one revenue:</strong> analysts estimate up to $1B in the first hour after pre-orders opened, with over 39 million copies reportedly pre-ordered. Morgan Stanley forecasts 40 million units in the initial launch window; Take-Two CEO Strauss Zelnick has internally modeled around 25 million copies in the first day.</li>
+          <li><strong>PC release window:</strong> no PC version has been announced. Historical patterns and third-party statements point to a release in late 2027 or early 2028 — Corsair Gaming's CEO suggested in early 2025 that console exclusivity could last 8–19 months.</li>
+          <li><strong>Post-launch physical discs:</strong> some sources claim physical disc editions could be printed months after launch; others deny any such plans exist.</li>
+          <li><strong>Nintendo Switch 2:</strong> loose rumors of Rockstar optimizing the game for Switch 2 — considered highly unlikely given the game's graphical demands.</li>
+          <li><strong>Internal crunch reports:</strong> gaming press (including Kotaku) has reported that repeated delays and a return-to-office mandate hurt morale at Rockstar North, coinciding with a temporary ~10% dip in Take-Two's stock price.</li>
+        </ul>
+      </div>
 
       <h3 class="subsection-title">Sources</h3>
       <ul class="source-list">
         <li><a href="https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026" target="_blank" rel="noopener">Rockstar Newswire — release date November 19, 2026</a></li>
         <li><a href="https://www.rockstargames.com/newswire/article/258aa538o412ok/grand-theft-auto-vi-is-now-coming-may-26-2026" target="_blank" rel="noopener">Rockstar Newswire — earlier date May 26, 2026</a></li>
       </ul>
-      <p class="section-sub note-block">Everything else circulating right now — vehicles, missions, weapon systems, economy — is leaks and speculation. We won't include it here until Rockstar confirms it themselves.</p>
     </div>
   </section>
 
-  <!-- ============ MONEY GUIDE ============ -->
-  <section id="view-moneyguide" class="view">
+  <!-- ============ 2. CHARACTERS & STORY ============ -->
+  <section id="view-characters" class="view">
     <div class="wrap">
       <p class="eyebrow">DOSSIER 02</p>
-      <h2 class="section-title">Money Guide</h2>
-      <p class="section-sub">The fastest way to get rich in GTA 6, organized by where you are in the story. Locked until we actually know the story — but here's what's reasonable to expect based on how Rockstar has done it before.</p>
+      <h2 class="section-title">Character &amp; Story Database</h2>
+      <p class="section-sub">GTA 6 centers on one criminal couple rather than a large ensemble cast. Confirmed biography first, leaked details clearly stamped below.</p>
 
-      <h3 class="subsection-title">What we can say now</h3>
-      <p class="section-sub note-block">Based on patterns from GTA V and Red Dead Redemption 2 — not confirmed for GTA 6, just how Rockstar has approached single-player money before.</p>
-      <div class="fact-grid">
-        <div class="fact-card">
-          <span class="stamp stamp--cyan">PATTERN</span>
-          <h3>Story heists pay the most</h3>
-          <p>In GTA V, the campaign heists (Jewelry Store, Union Depository, Paleto Bay) were by far the biggest single payouts, split between protagonists and crew. Expect GTA 6's story to work similarly with Jason and Lucia.</p>
+      <h3 class="subsection-title subsection-title--flush">Relationship map</h3>
+      <p class="section-sub">Every confirmed character and how they connect to Jason and Lucia.</p>
+      <div class="familytree" id="familyTree">
+        <svg class="familytree__lines" id="familyTreeLines"></svg>
+      </div>
+
+      <h3 class="subsection-title">Confirmed biography — the protagonists</h3>
+      <div class="dossier-grid">
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">ACTIVE</span>
+          <h3 class="dossier-card__name">Jason Duval</h3>
+          <p class="dossier-card__role">Protagonist — Playable</p>
+          <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
+          <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
+          <div class="dossier-card__row"><span>Relationship</span><span>Lucia Caminos</span></div>
+          <p class="dossier-card__note">One half of GTA 6's criminal couple. Jason and Lucia are pulled together after a failed robbery forces them to navigate a deep criminal conspiracy across the state of Leonida.</p>
+          <div class="dossier-card__barcode" aria-hidden="true"></div>
         </div>
-        <div class="fact-card">
-          <span class="stamp stamp--pink">PATTERN</span>
-          <h3>Side content adds up</h3>
-          <p>GTA V and RDR2 both used optional side activities — armored trucks, random encounters, bounties — as smaller but steady income between story missions. Leonida will likely have its own versions.</p>
-        </div>
-        <div class="fact-card">
-          <span class="stamp stamp--green">PATTERN</span>
-          <h3>Property is a slow burn</h3>
-          <p>GTA V let Franklin buy businesses that paid out over time rather than immediately. If GTA 6 includes property investment, treat it as a long-term play, not a quick payout.</p>
+
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">ACTIVE</span>
+          <h3 class="dossier-card__name">Lucia Caminos</h3>
+          <p class="dossier-card__role">Protagonist — Playable</p>
+          <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
+          <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
+          <div class="dossier-card__row"><span>Relationship</span><span>Jason Duval</span></div>
+          <p class="dossier-card__note">The series' first playable female protagonist in the modern 3D era. Introduced after serving a prison sentence, her fate becomes tied to Jason's after a robbery goes wrong.</p>
+          <div class="dossier-card__barcode" aria-hidden="true"></div>
         </div>
       </div>
 
-      <h3 class="subsection-title">Coming after launch</h3>
-      <div class="fact-grid">
-        <div class="fact-card">
-          <span class="stamp stamp--cyan">LOCKED</span>
-          <h3>Early game</h3>
-          <p>Starting cash, first job opportunities, and which early missions are worth prioritizing.</p>
+      <h3 class="subsection-title">Confirmed biography — the Vice City network</h3>
+      <div class="dossier-grid">
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Cal Hampton</h3>
+          <p class="dossier-card__role">Jason's friend</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Jason Duval</span></div>
+          <p class="dossier-card__note">A close friend of Jason's, described as deeply paranoid and an active user of conspiracy forums.</p>
         </div>
-        <div class="fact-card">
-          <span class="stamp stamp--pink">LOCKED</span>
-          <h3>Mid game</h3>
-          <p>Property, vehicle heists, and side hustles once Leonida fully opens up.</p>
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Brian Heder</h3>
+          <p class="dossier-card__role">Landlord</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Jason Duval</span></div>
+          <p class="dossier-card__note">An eccentric local landlord and acquaintance of Jason's.</p>
         </div>
-        <div class="fact-card">
-          <span class="stamp stamp--green">LOCKED</span>
-          <h3>Late game</h3>
-          <p>The biggest scores and the most efficient endgame wealth-building loop.</p>
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Boobie Ike</h3>
+          <p class="dossier-card__role">Businessman</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Vice City network</span></div>
+          <p class="dossier-card__note">A successful, influential Vice City businessman who invests in the local music scene.</p>
+        </div>
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Dre'quan Priest</h3>
+          <p class="dossier-card__role">Local artist</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Vice City network</span></div>
+          <p class="dossier-card__note">A local artist trying to leave street dealing behind and build a legitimate music career.</p>
+        </div>
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Bae-Luxe &amp; Roxy</h3>
+          <p class="dossier-card__role">Social media duo ("Real Dimez")</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Vice City network</span></div>
+          <p class="dossier-card__note">A viral social-media duo reflecting the city's modern influencer culture.</p>
+        </div>
+        <div class="dossier-card">
+          <span class="dossier-card__stamp">CONFIRMED</span>
+          <h3 class="dossier-card__name">Raul Bautista</h3>
+          <p class="dossier-card__role">Criminal network</p>
+          <div class="dossier-card__row"><span>Connected to</span><span>Vice City network</span></div>
+          <p class="dossier-card__note">A local figure tied to the story's criminal network.</p>
         </div>
       </div>
-      <p class="section-sub note-block">This section fills in with real, sourced information once GTA 6 releases on November 19, 2026 and the story is actually known.</p>
+
+      <h3 class="subsection-title">Leaked details</h3>
+      <p class="section-sub">Everything below comes from data-mined files and community reconstructions, not from Rockstar. Treat it as speculation, however detailed it sounds.</p>
+      <div class="rumor-block">
+        <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+        <ul>
+          <li><strong>Chapter structure:</strong> leaked material compiled by insider LegacyKillaHD suggests the campaign is split into five chapters, similar to Red Dead Redemption 2. Everything shown in official trailers so far reportedly comes from chapters one through three.</li>
+          <li><strong>Separate intro missions:</strong> Jason and Lucia are said to have entirely separate opening missions. Jason's reportedly involves chasing a plane carrying a Russian drug smuggler to steal its cargo, which ends up lost at sea after a police chase — requiring a later diving mission to recover it.</li>
+          <li><strong>Lucia's background:</strong> the same leaks claim Lucia is the story's true emotional core (comparable to Michael De Santa in GTA V), including a flashback showing her abandoning an infant at a delicatessen just before being arrested during a bank robbery — with the story beginning as she's released on parole and met by Jason.</li>
+          <li><strong>Jason's background:</strong> leaked material describes an ex-military background for Jason, introduced during the opening missions.</li>
+          <li><strong>"Donnie":</strong> a character described as an eccentric associate of Brian Heder and close friend of Jason.</li>
+          <li><strong>"San4San":</strong> the criminal landscape reportedly includes a parody of the real Haitian-American gang Zoe Pound, under this name (Haitian Creole for "blood for blood"). Lucia is said to infiltrate a bodybuilder gang during one mission.</li>
+          <li><strong>Jay Norris:</strong> leaked documentation references this character from GTA V (killed on a livestream at Lifeinvader), confirming GTA 6 shares the same HD-era universe as its predecessor.</li>
+        </ul>
+      </div>
     </div>
   </section>
 
-  <!-- ============ WIKI ============ -->
-  <section id="view-wiki" class="view">
+  <!-- ============ 3. INTERACTIVE MAP ============ -->
+  <section id="view-map" class="view">
     <div class="wrap">
       <p class="eyebrow">DOSSIER 03</p>
-      <h2 class="section-title">Wiki</h2>
-      <p class="section-sub">Everything we know about Leonida — organized, sourced, and updated as Rockstar reveals more.</p>
+      <h2 class="section-title">Interactive Map</h2>
+      <p class="section-sub">Rockstar hasn't revealed the full official map yet, so this shows confirmed regions and counties on a community-estimated layout. Tap a pin for details.</p>
 
-      <nav class="subtabs" role="tablist" aria-label="Wiki categories">
-        <button class="subtab is-active" data-subtarget="wiki-characters" role="tab" aria-selected="true">Characters</button>
-        <button class="subtab" data-subtarget="wiki-vehicles" role="tab" aria-selected="false">Vehicles</button>
-        <button class="subtab" data-subtarget="wiki-weapons" role="tab" aria-selected="false">Weapons</button>
-        <button class="subtab" data-subtarget="wiki-properties" role="tab" aria-selected="false">Properties</button>
+      <div id="leonidaMap" class="home-map" role="application" aria-label="Interactive map of Leonida"></div>
+      <p class="map-caption">Pins mark confirmed regions and counties only — nothing speculative is plotted on the map itself.</p>
+
+      <h3 class="subsection-title">Confirmed regions &amp; landmarks</h3>
+      <div class="fact-grid" id="regionGrid"></div>
+
+      <h3 class="subsection-title">Confirmed wildlife</h3>
+      <div class="fact-card">
+        <span class="stamp stamp--green">CONFIRMED</span>
+        <h3>A living ecosystem</h3>
+        <p>Alligators, sharks, dolphins, flamingos, foxes, deer, and jaguars all react to the player's presence across Leonida.</p>
+      </div>
+
+      <h3 class="subsection-title">Unconfirmed rumors</h3>
+      <div class="rumor-block">
+        <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+        <ul>
+          <li><strong>Map size:</strong> community mapping projects analyzing coordinate data from the 2022 leak estimate Leonida's landmass at roughly 2.16× the size of GTA V's map — with Vice City alone said to be nearly as large as the entire GTA V map.</li>
+          <li><strong>Flat topography:</strong> since real Florida is extremely flat, Leonida is expected to lack the mountain ranges GTA V used to block sightlines and bound the map. Speculation points to increased draw distance and heavy fog/atmospheric effects compensating for this.</li>
+          <li><strong>Northern expansion to "Gloriana":</strong> license plates in leaked footage reportedly read "Gloriana," speculated to be the series' fictional stand-in for Georgia. A wildlife park is also said to be modeled on a real North Carolina mountain, fueling theories about a far-north excursion late in the story.</li>
+          <li><strong>Exotic islands &amp; the Bahamas:</strong> beyond the main map, rumors point to three external islands reachable by the player, one said to be heavily inspired by the Bahamas.</li>
+          <li><strong>A "Fort Knox" parody:</strong> a town called "Fort" is rumored to exist, inspired by the real military gold reserve.</li>
+          <li><strong>Cut content:</strong> multiple leaks suggest Florida's real-world "Panhandle" region was left out of the map design, and that a Disney World parody was cut for legal or technical reasons.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 4. WEAPONS & VEHICLES ============ -->
+  <section id="view-arsenal" class="view">
+    <div class="wrap">
+      <p class="eyebrow">DOSSIER 04</p>
+      <h2 class="section-title">Weapons &amp; Vehicle Database</h2>
+      <p class="section-sub">Every confirmed weapon and vehicle, sorted by class — plus the carry system and next-gen tech running underneath it all.</p>
+
+      <nav class="subtabs" role="tablist" aria-label="Arsenal categories">
+        <button class="subtab is-active" data-subtarget="arsenal-weapons" role="tab" aria-selected="true">Weapons</button>
+        <button class="subtab" data-subtarget="arsenal-vehicles" role="tab" aria-selected="false">Vehicles</button>
+        <button class="subtab" data-subtarget="arsenal-tech" role="tab" aria-selected="false">Next-Gen Tech</button>
       </nav>
 
-      <!-- CHARACTERS -->
-      <div id="wiki-characters" class="subview is-active">
-        <h3 class="subsection-title subsection-title--flush">Relationship Map</h3>
-        <p class="section-sub">How everyone connects. Grows as Rockstar confirms more characters — right now that's just two.</p>
-        <div class="familytree" id="familyTree">
-          <svg class="familytree__lines" id="familyTreeLines"></svg>
+      <!-- WEAPONS -->
+      <div id="arsenal-weapons" class="subview is-active">
+        <div class="fact-grid">
+          <div class="fact-card">
+            <span class="stamp stamp--cyan">CONFIRMED</span>
+            <h3>A new carry system</h3>
+            <p>The weapon wheel splits into three slots: Weapons, Equipment, and Gear. Jason and Lucia can no longer carry unlimited firearms — capacity is limited to what could realistically be concealed or worn.</p>
+          </div>
+          <div class="fact-card">
+            <span class="stamp stamp--pink">CONFIRMED</span>
+            <h3>Shared inventory &amp; vehicle storage</h3>
+            <p>Jason and Lucia share one inventory, and vehicle trunks double as mobile weapon lockers. Full first-person aiming is supported, with unique reload and movement animations per weapon.</p>
+          </div>
         </div>
 
-        <h3 class="subsection-title">Dossiers</h3>
-        <div class="dossier-grid">
-          <div class="dossier-card">
-            <span class="dossier-card__stamp">ACTIVE</span>
-            <h3 class="dossier-card__name">Jason Duval</h3>
-            <p class="dossier-card__role">Protagonist — Playable</p>
-            <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
-            <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
-            <div class="dossier-card__row"><span>Relationship</span><span>Lucia Caminos</span></div>
-            <p class="dossier-card__note">One of GTA 6's two playable protagonists. Jason and Lucia are pulled together into a criminal conspiracy in Leonida.</p>
-            <div class="dossier-card__barcode" aria-hidden="true"></div>
-          </div>
+        <p class="section-sub note-block">16 named weapons have been identified in official trailers and screenshots so far (Rockstar's own count reportedly stands at 19, likely including cosmetic/variant versions).</p>
 
-          <div class="dossier-card">
-            <span class="dossier-card__stamp">ACTIVE</span>
-            <h3 class="dossier-card__name">Lucia Caminos</h3>
-            <p class="dossier-card__role">Protagonist — Playable</p>
-            <div class="dossier-card__row"><span>Status</span><span>Confirmed</span></div>
-            <div class="dossier-card__row"><span>Confirmed since</span><span>Trailer 1, Dec 2023</span></div>
-            <div class="dossier-card__row"><span>Relationship</span><span>Jason Duval</span></div>
-            <p class="dossier-card__note">The series' first female protagonist in the main line. Playable solo and alongside Jason.</p>
-            <div class="dossier-card__barcode" aria-hidden="true"></div>
-          </div>
+        <div id="weaponCategories"></div>
+
+        <h3 class="subsection-title">Unconfirmed weapons</h3>
+        <div class="rumor-block">
+          <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+          <ul>
+            <li><strong>Heavy &amp; explosive weapons:</strong> 2022 development leak files reportedly plan a classic rocket launcher (RPG-7) and a Milkor MGL-style grenade launcher.</li>
+            <li><strong>Concealed &amp; civilian weapons:</strong> a compact fictional pistol called the Bersa Firestorm .380 is rumored as a hideout weapon commonly carried by civilian NPCs.</li>
+            <li><strong>Speargun:</strong> a dedicated underwater speargun is rumored, reportedly used in a mission where the player must fend off a shark.</li>
+            <li><strong>Throwables:</strong> files reportedly point to Molotov cocktails, smoke grenades, flashbangs, and tear gas — plus improvised objects like golf balls.</li>
+            <li><strong>Melee weapons:</strong> beyond fists, rumors list a pool cue, crowbar, hammer, baseball bat, and golf club.</li>
+          </ul>
         </div>
       </div>
 
       <!-- VEHICLES -->
-      <div id="wiki-vehicles" class="subview">
-        <div class="locked-panel" id="vehicleEmpty">
-          <span class="locked-panel__stamp">LOCKED — AWAITING RELEASE DATA</span>
-          <h3>No confirmed vehicle data yet</h3>
-          <p>GTA 6 hasn't released, so there are no verified vehicle lists or stats to show. This fills in with real data — sourced, not guessed — after launch on November 19, 2026.</p>
+      <div id="arsenal-vehicles" class="subview">
+        <div class="fact-card">
+          <span class="stamp stamp--green">CONFIRMED</span>
+          <h3>Fully interactive interiors</h3>
+          <p>Every vehicle features working analog or digital speedometers, pedals, and mirrors in real time. Rockstar's internal documentation reportedly describes the driving physics as "the best in the series' history." The fictional roster is expected to total 200+ individual vehicle models.</p>
         </div>
-        <div class="data-grid" id="vehicleGrid" hidden></div>
+
+        <div id="vehicleCategories"></div>
+
+        <h3 class="subsection-title">Unconfirmed vehicles</h3>
+        <div class="rumor-block">
+          <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+          <ul>
+            <li><strong>Jason's signature vehicle:</strong> development files reportedly name it the Vapid Creado (or Vapid Ute), a two-door pickup based on a classic 1970s Ford Ranchero.</li>
+            <li><strong>Airboats:</strong> flat-bottomed, propeller-driven airboats are rumored, needed to navigate the extremely shallow swamp water of the Grassrivers region.</li>
+            <li><strong>Unidentified new models:</strong> leaked vehicle lists point to a Schyster PMP 700 (modern luxury sedan), an Audi RS7-inspired performance sedan, a Dodge Ram 3500-inspired dually pickup, and a classic cruiser modeled on the 1959 Cadillac Eldorado.</li>
+            <li><strong>Principe Alvino V1:</strong> an all-new sport motorcycle from the fictional Principe brand, spotted in early development footage of Jason riding through the city.</li>
+          </ul>
+        </div>
       </div>
 
-      <!-- WEAPONS -->
-      <div id="wiki-weapons" class="subview">
-        <div class="locked-panel" id="weaponEmpty">
-          <span class="locked-panel__stamp">LOCKED — AWAITING RELEASE DATA</span>
-          <h3>No confirmed weapon data yet</h3>
-          <p>No verified weapon list exists before launch. This fills in with real, sourced information after November 19, 2026.</p>
+      <!-- NEXT-GEN TECH -->
+      <div id="arsenal-tech" class="subview">
+        <p class="section-sub">GTA 6 builds on Red Dead Redemption 2's technical foundation, adapted for a dense, modern metropolis.</p>
+        <div class="fact-grid">
+          <div class="fact-card">
+            <span class="stamp stamp--cyan">CONFIRMED</span>
+            <h3>Next-gen RAGE engine</h3>
+            <p>Ray-traced global illumination and dynamic reflections, with lighting and shadows that adapt in real time to atmospheric changes.</p>
+          </div>
+          <div class="fact-card">
+            <span class="stamp stamp--pink">CONFIRMED</span>
+            <h3>Strand-based hair physics</h3>
+            <p>Character hair moves naturally in response to wind and body movement.</p>
+          </div>
+          <div class="fact-card">
+            <span class="stamp stamp--green">CONFIRMED</span>
+            <h3>Dynamic clothing &amp; skin</h3>
+            <p>Clothing reacts to moisture, wind, and movement; character models show detailed sweat and skin textures that shift with exertion and temperature.</p>
+          </div>
         </div>
-        <div class="data-grid" id="weaponGrid" hidden></div>
-      </div>
 
-      <!-- PROPERTIES -->
-      <div id="wiki-properties" class="subview">
-        <div class="locked-panel" id="propertyEmpty">
-          <span class="locked-panel__stamp">LOCKED — AWAITING RELEASE DATA</span>
-          <h3>No confirmed property data yet</h3>
-          <p>No verified property list or prices exist before launch. This fills in with real, sourced information after November 19, 2026.</p>
+        <div class="rumor-block">
+          <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
+          <ul>
+            <li><strong>AI navigation patent:</strong> a patent filed in 2019 and granted in 2023 (credited to Rockstar engineers Simon Parr and David Hynd) describes an NPC navigation system using trained neural networks, letting pedestrians and drivers make real-time contextual decisions — avoiding traffic, choosing alternate routes in storms, or dodging puddles and slick roads — instead of following scripted paths.</li>
+            <li><strong>Dialogue decay system:</strong> a conditional pedestrian dialogue system is rumored to go well beyond GTA V's, tied to time of day, weather, and the player's immediate actions, with a "decay" mechanic preventing repeated lines within a session.</li>
+            <li><strong>Vehicle damage simulation:</strong> forum threads citing leaked files suggest high-speed crashes can rupture a radiator and cause overheating, suspension or wheel damage can affect handling directly, and vehicles may need refueling with speedometers showing real distances.</li>
+            <li><strong>Physical injury consequences:</strong> a rumor claims severe collisions can give characters temporary or permanent injuries, like a concussion that blurs aim or a back injury that prevents running for a period.</li>
+          </ul>
         </div>
-        <div class="data-grid" id="propertyGrid" hidden></div>
       </div>
     </div>
   </section>
@@ -278,10 +464,11 @@
 
 <footer class="footer">
   <div class="wrap footer__inner">
-    <p><strong>HeistFile</strong> is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. All facts here are sourced from Rockstar's official announcements and are subject to change — always double-check against Rockstar's Newswire. Last updated: July 7, 2026.</p>
+    <p><strong>HeistFile</strong> is an unofficial fan site and is not affiliated with, endorsed by, or sponsored by Rockstar Games or Take-Two Interactive. Confirmed facts are sourced from Rockstar's official announcements and Take-Two's financial filings; everything marked as a leak or rumor is unverified community/press speculation, not confirmed information. Subject to change — always double-check against Rockstar's Newswire. Last updated: July 8, 2026.</p>
   </div>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
