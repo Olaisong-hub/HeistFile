@@ -1,6 +1,6 @@
 /* ===========================================================
    HEISTFILE — GTA 6 launch guide, characters, map & arsenal 
-   Confirmed facts come from Rockstar Newswire, Take-Two's
+   Confirmed facts come from Rockstar Newswire, Take-Two's 
    financial filings, and official trailers/screenshots/pack
    contents. Leaked/rumored content is always kept in separate
    .rumor-block elements, clearly stamped — never blended in.
