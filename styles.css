@@ -1,5 +1,5 @@
 /* ===========================================================
-   HEISTFILE — design tokens 
+   HEISTFILE — design tokens
    bg:      #10131A  (asphalt / blueprint navy)
    panel:   #171B24
    paper:   #ECE4D3  (dossier card)
@@ -71,10 +71,12 @@ html, body{
 .topbar__inner{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 64px;
+  gap: 24px;
 }
 .wordmark{
+  flex-shrink: 0;
   font-family: 'Anton', sans-serif;
   font-size: 22px;
   letter-spacing: 0.06em;
@@ -86,6 +88,7 @@ html, body{
 .tabs{
   display: flex;
   gap: 4px;
+  max-width: 100%;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -756,6 +759,105 @@ html, body{
   color: var(--ink-soft);
   margin: 0;
 }
+
+/* ---------- item icon badges (weapons/vehicles/characters) ---------- */
+.item-icon{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-family: 'IBM Plex Mono', monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: -0.01em;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+.item-icon--weapon{ background: rgba(255,62,127,0.16); color: var(--pink); border: 1px solid var(--pink); }
+.item-icon--vehicle{ background: rgba(51,224,255,0.14); color: var(--cyan); border: 1px solid var(--cyan); }
+.item-icon--sm{ width: 30px; height: 30px; font-size: 10.5px; margin-bottom: 8px; }
+
+.data-card{ cursor: pointer; transition: transform 0.12s ease, border-color 0.15s ease; }
+.data-card:hover{ transform: translateY(-2px); border-color: var(--cyan); }
+
+.dossier-card{ cursor: pointer; transition: transform 0.12s ease; }
+.dossier-card:hover{ transform: translateY(-2px); }
+
+/* case-file photo placeholder for characters */
+.char-photo{
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  background: var(--paper-2);
+  border: 1px solid rgba(32,26,18,0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.char-photo svg{ width: 70%; height: 70%; color: rgba(32,26,18,0.35); }
+.char-photo__stamp{
+  position: absolute;
+  bottom: 2px;
+  right: -14px;
+  background: var(--pink);
+  color: white;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 1px 16px;
+  transform: rotate(-8deg);
+}
+.char-photo--lg{ width: 100px; height: 100px; border-radius: 10px; }
+.char-photo--lg .char-photo__stamp{ font-size: 9px; padding: 2px 22px; }
+
+/* ---------- detail view ---------- */
+#view-detail{ padding: 40px 0 80px; }
+.detail-back{ margin-bottom: 28px; }
+.detail-header{
+  display: flex;
+  gap: 22px;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.detail-header .item-icon{ width: 72px; height: 72px; font-size: 20px; margin-bottom: 0; }
+.detail-meta{
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  color: var(--text-dim);
+  margin: 8px 0 0;
+}
+.detail-body{ max-width: 680px; }
+.detail-body p{ font-size: 15px; line-height: 1.65; color: var(--text-dim); margin: 0 0 18px; }
+.detail-body h4{
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  letter-spacing: 0.01em;
+  margin: 28px 0 10px;
+  color: var(--text);
+}
+.detail-facts{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 4px 0 24px;
+}
+.detail-fact{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+}
+.detail-fact span{ display: block; color: var(--text-dim); font-size: 10px; text-transform: uppercase; margin-bottom: 2px; }
 
 /* ---------- footer ---------- */
 .footer{ border-top: 1px solid var(--line); padding: 28px 0 60px; }
