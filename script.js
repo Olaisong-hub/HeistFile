@@ -1,5 +1,5 @@
 /* ===========================================================
-   HEISTFILE — GTA 6 launch guide, characters, map & arsenal 
+   HEISTFILE — GTA 6 launch guide, characters, map & arsenal
    Confirmed facts come from Rockstar Newswire, Take-Two's
    financial filings, and official trailers/screenshots/pack
    contents. Leaked/rumored content is always kept in separate
@@ -255,7 +255,7 @@ function renderFamilyTree(){
   CHARACTERS.forEach(c => {
     const node = document.createElement("a");
     node.className = "familytree__node";
-    node.href = `characters/${c.slug}.html`;
+    node.href = `${c.slug}.html`;
     node.style.left = c.x + "%";
     node.style.top = c.y + "%";
     node.innerHTML = `${c.name}<small>${c.role}</small>`;
@@ -452,7 +452,7 @@ function renderGroupedSection(items, order, containerId, stampCycle, iconMap, ki
     const cards = inCategory.map(i => {
       const hasPage = Boolean(i.source);
       const tag = hasPage ? "a" : "div";
-      const hrefAttr = hasPage ? `href="${kind}s/${slugify(i.name)}.html"` : "";
+      const hrefAttr = hasPage ? `href="${slugify(i.name)}.html"` : "";
       return `
       <${tag} class="data-card${hasPage ? "" : " data-card--static"}" ${hrefAttr}>
         <div class="item-icon item-icon--${kind} item-icon--sm">${iconMap[i.category]}</div>

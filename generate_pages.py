@@ -3,7 +3,7 @@ import json, re, os
 with open('/tmp/site_data.json') as f:
     data = json.load(f)
 
-CHARACTERS = data['CHARACTERS'] 
+CHARACTERS = data['CHARACTERS']
 RELATIONSHIPS = data['RELATIONSHIPS']
 CHARACTER_DETAILS = data['CHARACTER_DETAILS']
 WEAPONS = data['WEAPONS']
@@ -53,14 +53,14 @@ HEAD_TEMPLATE = '''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<link rel="canonical" href="https://olaisong-hub.github.io/HeistFile/{folder}/{slug}.html">
+<link rel="canonical" href="https://olaisong-hub.github.io/HeistFile/{slug}.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{description}">
-<meta property="og:url" content="https://olaisong-hub.github.io/HeistFile/{folder}/{slug}.html">
+<meta property="og:url" content="https://olaisong-hub.github.io/HeistFile/{slug}.html">
 <meta property="og:site_name" content="HeistFile">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles.css">
 <script type="application/ld+json">
 {jsonld}
 </script>
@@ -71,13 +71,13 @@ HEAD_TEMPLATE = '''<!DOCTYPE html>
 
 <header class="topbar">
   <div class="wrap topbar__inner">
-    <a href="../index.html" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
+    <a href="index.html" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
     <nav class="tabs" aria-label="Page navigation">
-      <a class="tab" href="../index.html#view-home">Home</a>
-      <a class="tab" href="../index.html#view-launch">Launch Guide</a>
-      <a class="tab{characters_active}" href="../index.html#view-characters">Characters</a>
-      <a class="tab" href="../index.html#view-map">Map</a>
-      <a class="tab{arsenal_active}" href="../index.html#view-arsenal">Arsenal</a>
+      <a class="tab" href="index.html#view-home">Home</a>
+      <a class="tab" href="index.html#view-launch">Launch Guide</a>
+      <a class="tab{characters_active}" href="index.html#view-characters">Characters</a>
+      <a class="tab" href="index.html#view-map">Map</a>
+      <a class="tab{arsenal_active}" href="index.html#view-arsenal">Arsenal</a>
     </nav>
   </div>
 </header>
@@ -85,7 +85,7 @@ HEAD_TEMPLATE = '''<!DOCTYPE html>
 <main>
   <div class="wrap" style="padding-top:40px;">
     <nav aria-label="Breadcrumb" class="section-sub" style="font-family:'IBM Plex Mono',monospace; font-size:12px; margin-bottom:24px;">
-      <a href="../index.html" style="color:var(--cyan); text-decoration:none;">Home</a>
+      <a href="index.html" style="color:var(--cyan); text-decoration:none;">Home</a>
       <span aria-hidden="true"> / </span>
       <a href="{crumb_href}" style="color:var(--cyan); text-decoration:none;">{crumb_label}</a>
       <span aria-hidden="true"> / </span>
@@ -107,7 +107,7 @@ FOOTER_TEMPLATE = '''  </div>
 '''
 
 def write_page(folder, slug, title, description, og_title, jsonld_obj, crumb_href, crumb_label, name, body_html, characters_active=False, arsenal_active=False):
-    path = f"{BASE}/{folder}/{slug}.html"
+    path = f"{BASE}/{slug}.html"
     head = HEAD_TEMPLATE.format(
         title=title, description=description, folder=folder, slug=slug,
         og_title=og_title, jsonld=json.dumps(jsonld_obj, indent=2),
@@ -196,7 +196,7 @@ for c in CHARACTERS:
         "@type": "Person",
         "name": name,
         "description": detail['confirmed'][0],
-        "url": f"https://olaisong-hub.github.io/HeistFile/characters/{slug}.html",
+        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html",
         "characterAttribute": "Character in Grand Theft Auto VI (Rockstar Games)"
     }
     path = write_page(
@@ -205,7 +205,7 @@ for c in CHARACTERS:
         description=description,
         og_title=f"{name} in GTA 6 - Story, Facts & Rumors",
         jsonld_obj=jsonld,
-        crumb_href="../index.html#view-characters", crumb_label="Characters",
+        crumb_href="index.html#view-characters", crumb_label="Characters",
         name=name, body_html=body, characters_active=True
     )
     char_files.append(path)
@@ -263,7 +263,7 @@ for w in WEAPONS:
       <p>{note if note else basis}</p>
       {rumor_html}
       <h2>Browse more</h2>
-      <p><a href="../index.html#view-arsenal" style="color:var(--cyan);">← Back to the full Arsenal</a></p>
+      <p><a href="index.html#view-arsenal" style="color:var(--cyan);">← Back to the full Arsenal</a></p>
     </div>
 '''
     jsonld = {
@@ -271,7 +271,7 @@ for w in WEAPONS:
         "@type": "Thing",
         "name": name,
         "description": note if note else basis,
-        "url": f"https://olaisong-hub.github.io/HeistFile/weapons/{slug}.html"
+        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html"
     }
     path = write_page(
         'weapons', slug,
@@ -279,7 +279,7 @@ for w in WEAPONS:
         description=description,
         og_title=f"{name} in GTA 6 - Stats, Facts & Rumors",
         jsonld_obj=jsonld,
-        crumb_href="../index.html#view-arsenal", crumb_label="Arsenal",
+        crumb_href="index.html#view-arsenal", crumb_label="Arsenal",
         name=name, body_html=body, arsenal_active=True
     )
     weapon_files.append(path)
@@ -330,7 +330,7 @@ for v in VEHICLES:
       <h2>Overview</h2>
       <p>{note if note else basis}</p>
       <h2>Browse more</h2>
-      <p><a href="../index.html#view-arsenal" style="color:var(--cyan);">← Back to the full Arsenal</a></p>
+      <p><a href="index.html#view-arsenal" style="color:var(--cyan);">← Back to the full Arsenal</a></p>
     </div>
 '''
     jsonld = {
@@ -338,7 +338,7 @@ for v in VEHICLES:
         "@type": "Thing",
         "name": name,
         "description": note if note else basis,
-        "url": f"https://olaisong-hub.github.io/HeistFile/vehicles/{slug}.html"
+        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html"
     }
     path = write_page(
         'vehicles', slug,
@@ -346,7 +346,7 @@ for v in VEHICLES:
         description=description,
         og_title=f"{name} in GTA 6 - Stats, Facts & Rumors",
         jsonld_obj=jsonld,
-        crumb_href="../index.html#view-arsenal", crumb_label="Arsenal",
+        crumb_href="index.html#view-arsenal", crumb_label="Arsenal",
         name=name, body_html=body, arsenal_active=True
     )
     vehicle_files.append(path)
