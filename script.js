@@ -1,6 +1,6 @@
 /* ===========================================================
-   HEISTFILE — GTA 6 launch guide, characters, map & arsenal 
-   Confirmed facts come from Rockstar Newswire, Take-Two's 
+   HEISTFILE — GTA 6 launch guide, characters, map & arsenal
+   Confirmed facts come from Rockstar Newswire, Take-Two's
    financial filings, and official trailers/screenshots/pack
    contents. Leaked/rumored content is always kept in separate
    .rumor-block elements, clearly stamped — never blended in.
@@ -11,9 +11,6 @@ function slugify(str){
 }
 
 /* ---------------- top-level navigation ---------------- */
-let lastActiveViewId = "view-home";
-let lastActiveSubviewId = "arsenal-weapons";
-
 function showView(targetId){
   document.querySelectorAll(".view").forEach(v => v.classList.toggle("is-active", v.id === targetId));
   document.querySelectorAll(".tab").forEach(t => {
@@ -21,7 +18,6 @@ function showView(targetId){
     t.classList.toggle("is-active", active);
     t.setAttribute("aria-selected", active ? "true" : "false");
   });
-  if (targetId !== "view-detail") lastActiveViewId = targetId;
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
   if (targetId === "view-map" && leonidaMap) {
     setTimeout(() => leonidaMap.invalidateSize(), 50);
@@ -29,7 +25,10 @@ function showView(targetId){
 }
 
 document.querySelectorAll("[data-target]").forEach(el => {
-  el.addEventListener("click", () => showView(el.dataset.target));
+  el.addEventListener("click", () => {
+    showView(el.dataset.target);
+    history.replaceState(null, "", "#" + el.dataset.target);
+  });
 });
 
 /* ---------------- sub-navigation (Arsenal tabs) ---------------- */
@@ -40,7 +39,6 @@ function showSubview(targetId){
     t.classList.toggle("is-active", active);
     t.setAttribute("aria-selected", active ? "true" : "false");
   });
-  lastActiveSubviewId = targetId;
 }
 
 document.querySelectorAll("[data-subtarget]").forEach(el => {
@@ -85,16 +83,16 @@ function updateCountdown(){
    CHARACTERS
    =========================================================== */
 const CHARACTERS = [
-  { id: "jason",   name: "Jason Duval",     role: "Protagonist",      x: 30, y: 42 },
-  { id: "lucia",   name: "Lucia Caminos",   role: "Protagonist",      x: 70, y: 42 },
-  { id: "cal",     name: "Cal Hampton",     role: "Jason's friend",   x: 12, y: 15 },
-  { id: "brian",   name: "Brian Heder",     role: "Smuggler",         x: 12, y: 70 },
-  { id: "donnie",  name: "Donnie",          role: "Mechanic",         x: 28, y: 92 },
-  { id: "lori",    name: "Lori Heder",      role: "Brian's wife",     x: 8,  y: 94 },
-  { id: "boobie",  name: "Boobie Ike",      role: "Businessman",      x: 88, y: 15 },
-  { id: "drequan", name: "Dre'Quan Priest", role: "Entrepreneur",     x: 88, y: 70 },
-  { id: "baeluxe", name: "Real Dimez",      role: "Social media duo", x: 55, y: 10 },
-  { id: "raul",    name: "Raul Bautista",   role: "Heist planner",    x: 72, y: 92 }
+  { id: "jason",   name: "Jason Duval",     role: "Protagonist",      x: 30, y: 42, slug: "jason-duval" },
+  { id: "lucia",   name: "Lucia Caminos",   role: "Protagonist",      x: 70, y: 42, slug: "lucia-caminos" },
+  { id: "cal",     name: "Cal Hampton",     role: "Jason's friend",   x: 12, y: 15, slug: "cal-hampton" },
+  { id: "brian",   name: "Brian Heder",     role: "Smuggler",         x: 12, y: 70, slug: "brian-heder" },
+  { id: "donnie",  name: "Donnie",          role: "Mechanic",         x: 28, y: 92, slug: "donnie" },
+  { id: "lori",    name: "Lori Heder",      role: "Brian's wife",     x: 8,  y: 94, slug: "lori-heder" },
+  { id: "boobie",  name: "Boobie Ike",      role: "Businessman",      x: 88, y: 15, slug: "boobie-ike" },
+  { id: "drequan", name: "Dre'Quan Priest", role: "Entrepreneur",     x: 88, y: 70, slug: "drequan-priest" },
+  { id: "baeluxe", name: "Real Dimez",      role: "Social media duo", x: 55, y: 10, slug: "real-dimez" },
+  { id: "raul",    name: "Raul Bautista",   role: "Heist planner",    x: 72, y: 92, slug: "raul-bautista" }
 ];
 
 const RELATIONSHIPS = [
@@ -255,60 +253,18 @@ function renderFamilyTree(){
   });
 
   CHARACTERS.forEach(c => {
-    const node = document.createElement("div");
+    const node = document.createElement("a");
     node.className = "familytree__node";
+    node.href = `characters/${c.slug}.html`;
     node.style.left = c.x + "%";
     node.style.top = c.y + "%";
-    node.style.cursor = "pointer";
     node.innerHTML = `${c.name}<small>${c.role}</small>`;
-    node.addEventListener("click", () => openCharacterDetail(c.id));
     container.appendChild(node);
   });
 }
 
-/* clicking a static dossier card opens its detail page */
-document.querySelectorAll(".dossier-card[data-detail]").forEach(card => {
-  card.addEventListener("click", () => openCharacterDetail(card.dataset.detail));
-});
-
-function charSilhouette(){
-  return `<svg viewBox="0 0 64 64" fill="currentColor"><circle cx="32" cy="22" r="14"/><path d="M8 58c0-14 11-22 24-22s24 8 24 22z"/></svg>`;
-}
-
-function openCharacterDetail(id){
-  const base = CHARACTERS.find(c => c.id === id);
-  const detail = CHARACTER_DETAILS[id];
-  if (!base || !detail) return;
-
-  document.getElementById("detailIconWrap").innerHTML = `
-    <div class="char-photo char-photo--lg">
-      ${charSilhouette()}
-      <span class="char-photo__stamp">ID PENDING</span>
-    </div>
-  `;
-  document.getElementById("detailStamp").textContent = "CONFIRMED CHARACTER";
-  document.getElementById("detailTitle").textContent = base.name;
-  document.getElementById("detailMeta").textContent = `${detail.role} · Connected to ${detail.relationship}`;
-  document.getElementById("detailFacts").innerHTML = "";
-
-  let body = detail.confirmed.map(p => `<p>${p}</p>`).join("");
-  if (detail.leaked.length){
-    body += `
-      <h4>Leaked details</h4>
-      <div class="rumor-block">
-        <span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span>
-        <ul>${detail.leaked.map(l => `<li>${l}</li>`).join("")}</ul>
-      </div>
-    `;
-  }
-  document.getElementById("detailBody").innerHTML = body;
-  showView("view-detail");
-}
-
-document.getElementById("detailBack").addEventListener("click", () => {
-  showView(lastActiveViewId);
-  if (lastActiveViewId === "view-arsenal") showSubview(lastActiveSubviewId);
-});
+/* Character dossier cards and the family tree above are real <a> links
+   directly in the HTML/markup — no click-to-open JS needed for them. */
 
 /* ===========================================================
    INTERACTIVE MAP
@@ -493,47 +449,22 @@ function renderGroupedSection(items, order, containerId, stampCycle, iconMap, ki
     if (!inCategory.length) return "";
     const stampClass = stampCycle[stampIndex % stampCycle.length];
     stampIndex++;
-    const cards = inCategory.map(i => `
-      <div class="data-card" data-slug="${slugify(i.name)}" data-kind="${kind}">
+    const cards = inCategory.map(i => {
+      const hasPage = Boolean(i.source);
+      const tag = hasPage ? "a" : "div";
+      const hrefAttr = hasPage ? `href="${kind}s/${slugify(i.name)}.html"` : "";
+      return `
+      <${tag} class="data-card${hasPage ? "" : " data-card--static"}" ${hrefAttr}>
         <div class="item-icon item-icon--${kind} item-icon--sm">${iconMap[i.category]}</div>
         <span class="stamp ${stampClass}">${i.leaked ? "LEAKED" : (i.exclusive ? "EXCLUSIVE" : "CONFIRMED")}</span>
         <h3>${i.name}</h3>
         ${i.exclusive ? `<div class="data-card__meta"><span>Availability</span><span>${i.exclusive}</span></div>` : ""}
         <p class="data-card__desc">${i.note || i.basis}</p>
-      </div>
-    `).join("");
+      </${tag}>
+    `;
+    }).join("");
     return `<h3 class="subsection-title">${category}</h3><div class="data-grid">${cards}</div>`;
   }).join("");
-
-  container.querySelectorAll(".data-card").forEach(card => {
-    card.addEventListener("click", () => openItemDetail(card.dataset.slug, card.dataset.kind));
-  });
-}
-
-function openItemDetail(slug, kind){
-  const list = kind === "weapon" ? WEAPONS : VEHICLES;
-  const iconMap = kind === "weapon" ? WEAPON_ICONS : VEHICLE_ICONS;
-  const item = list.find(i => slugify(i.name) === slug);
-  if (!item) return;
-
-  document.getElementById("detailIconWrap").innerHTML = `<div class="item-icon item-icon--${kind}" style="width:72px;height:72px;font-size:20px;">${iconMap[item.category]}</div>`;
-  document.getElementById("detailStamp").textContent = item.leaked ? "LEAKED — UNCONFIRMED" : (item.exclusive ? "EXCLUSIVE" : "CONFIRMED");
-  document.getElementById("detailTitle").textContent = item.name;
-  document.getElementById("detailMeta").textContent = item.category;
-
-  const facts = [];
-  if (item.manufacturer) facts.push(["Manufacturer", item.manufacturer]);
-  facts.push(["Real-world basis", item.basis || "—"]);
-  if (item.source) facts.push(["Source", item.source]);
-  if (item.exclusive) facts.push(["Availability", item.exclusive]);
-  document.getElementById("detailFacts").innerHTML = facts.map(([k, v]) => `<div class="detail-fact"><span>${k}</span>${v}</div>`).join("");
-
-  let body = `<p>${item.note ? item.note : item.basis}</p>`;
-  if (item.leaked){
-    body += `<div class="rumor-block"><span class="rumor-block__stamp">⚠ Unconfirmed — leak / rumor</span><ul><li>This item comes from data-mined files rather than an official Rockstar confirmation — treat it as speculation.</li></ul></div>`;
-  }
-  document.getElementById("detailBody").innerHTML = body;
-  showView("view-detail");
 }
 
 const CARD_STAMPS = ["stamp--cyan", "stamp--pink", "stamp--green"];
@@ -553,4 +484,11 @@ try {
   console.warn("HeistFile: map failed to load", err);
   const mapEl = document.getElementById("leonidaMap");
   if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
+}
+
+/* Deep-linking: a detail page can link back to e.g.
+   ../index.html#view-characters and land on the right tab. */
+const initialHash = location.hash.replace("#", "");
+if (initialHash && document.getElementById(initialHash)) {
+  showView(initialHash);
 }
