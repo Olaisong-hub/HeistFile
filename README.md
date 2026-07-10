@@ -3,7 +3,7 @@
 Static website (no backend, no build tools), organized into four dossiers
 about the upcoming GTA 6 (November 19, 2026). Confirmed facts and
 unconfirmed leaks/rumors are always kept in clearly separate, clearly
-labeled blocks — never mixed together.
+labeled blocks — never mixed together. 
 
 ## Structure
 - **Home** — hero, countdown to release, and a hub linking to all four dossiers
