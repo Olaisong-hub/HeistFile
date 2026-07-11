@@ -3,7 +3,7 @@ import json, re, os
 with open('/tmp/site_data.json') as f:
     data = json.load(f)
 
-CHARACTERS = data['CHARACTERS']
+CHARACTERS = data['CHARACTERS'] 
 RELATIONSHIPS = data['RELATIONSHIPS']
 CHARACTER_DETAILS = data['CHARACTER_DETAILS']
 WEAPONS = data['WEAPONS']
