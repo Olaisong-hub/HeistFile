@@ -19,8 +19,8 @@ function showView(targetId){
     t.setAttribute("aria-selected", active ? "true" : "false");
   });
   window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
-  if (targetId === "view-map" && leonidaMap) {
-    setTimeout(() => leonidaMap.invalidateSize(), 50);
+  if (targetId === "view-map") {
+    setTimeout(openMap, 50);
   }
 }
 
@@ -290,7 +290,68 @@ const REGIONS = [
     desc: "A parody of Collier County in the northwest — smaller towns, rural land, and Leonida Penitentiary." }
 ];
 
+/* ---------------- lazy-loaded map (performance) ----------------
+   Leaflet (~40KB of JS + CSS) is only fetched the first time someone
+   actually opens the Map tab, instead of on every single page load —
+   the Home page shouldn't have to pay for a map most visitors never
+   open. */
 let leonidaMap = null;
+let leafletLoadState = "idle"; // idle -> loading -> ready
+
+function ensureLeafletLoaded(onReady){
+  if (leafletLoadState === "ready") { onReady(); return; }
+
+  const mapEl = document.getElementById("leonidaMap");
+  if (mapEl && leafletLoadState === "idle") mapEl.textContent = "Loading map…";
+
+  if (leafletLoadState === "loading"){
+    document.addEventListener("heistfile:leaflet-ready", onReady, { once: true });
+    return;
+  }
+
+  leafletLoadState = "loading";
+
+  function loadScript(){
+    const script = document.createElement("script");
+    script.src = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js";
+    script.onload = () => {
+      leafletLoadState = "ready";
+      onReady();
+      document.dispatchEvent(new Event("heistfile:leaflet-ready"));
+    };
+    script.onerror = () => {
+      leafletLoadState = "idle";
+      if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
+    };
+    document.body.appendChild(script);
+  }
+
+  // The stylesheet MUST finish loading and applying before Leaflet's JS
+  // builds the map — otherwise Leaflet measures/positions everything
+  // against an unstyled container and the layout comes out broken
+  // (zoom controls floating outside the map, wrong sizing, etc.).
+  const link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+  link.onload = loadScript;
+  link.onerror = loadScript; // don't get stuck forever if only the CSS CDN hiccups
+  document.head.appendChild(link);
+}
+
+function openMap(){
+  ensureLeafletLoaded(() => {
+    if (!leonidaMap) {
+      try { initMap(); }
+      catch (err) {
+        console.warn("HeistFile: map failed to load", err);
+        const mapEl = document.getElementById("leonidaMap");
+        if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
+      }
+    } else {
+      leonidaMap.invalidateSize();
+    }
+  });
+}
 
 function createRegionIcon(region){
   const letter = region.type === "city" ? "C" : region.type === "county" ? "Co" : "R";
@@ -318,7 +379,9 @@ function initMap(){
     crs: L.CRS.Simple,
     minZoom: -1,
     maxZoom: 2,
-    zoomSnap: 0.25,
+    zoomSnap: 0.5,
+    scrollWheelZoom: false,
+    markerZoomAnimation: false,
     attributionControl: false
   });
 
@@ -478,16 +541,9 @@ renderRegionGrid();
 renderGroupedSection(WEAPONS, WEAPON_CATEGORY_ORDER, "weaponCategories", CARD_STAMPS, WEAPON_ICONS, "weapon");
 renderGroupedSection(VEHICLES, VEHICLE_CATEGORY_ORDER, "vehicleCategories", CARD_STAMPS, VEHICLE_ICONS, "vehicle");
 
-try {
-  initMap();
-} catch (err) {
-  console.warn("HeistFile: map failed to load", err);
-  const mapEl = document.getElementById("leonidaMap");
-  if (mapEl) mapEl.textContent = "Map couldn't load — check your connection and refresh.";
-}
-
 /* Deep-linking: a detail page can link back to e.g.
-   ../index.html#view-characters and land on the right tab. */
+   ../index.html#view-characters and land on the right tab. This also
+   opens the map on load if someone lands directly on #view-map. */
 const initialHash = location.hash.replace("#", "");
 if (initialHash && document.getElementById(initialHash)) {
   showView(initialHash);
