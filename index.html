@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -19,6 +19,7 @@
     <a href="#home" class="wordmark" data-target="view-home">HEISTFILE<span class="wordmark__dot">.</span></a>
     <nav class="tabs" role="tablist" aria-label="Page navigation">
       <button class="tab is-active" data-target="view-home" role="tab" aria-selected="true">Home</button>
+      <button class="tab" data-target="view-news" role="tab" aria-selected="false">News</button>
       <button class="tab" data-target="view-launch" role="tab" aria-selected="false">Launch Guide</button>
       <button class="tab" data-target="view-characters" role="tab" aria-selected="false">Characters</button>
       <button class="tab" data-target="view-map" role="tab" aria-selected="false">Map</button>
@@ -73,6 +74,14 @@
       </div>
     </section>
 
+    <section class="wrap">
+      <div class="section-header-row">
+        <h2 class="subsection-title subsection-title--flush" style="margin:0;">Latest news</h2>
+        <button class="btn btn--ghost btn--small" data-target="view-news">See all →</button>
+      </div>
+      <div class="news-grid news-grid--home" id="homeNewsTeaser"></div>
+    </section>
+
     <section class="hero hero--countdown wrap">
       <div class="countdown" id="countdown" role="timer" aria-live="off">
         <div class="countdown__unit">
@@ -112,6 +121,17 @@
         <p>No online mode ships at launch. Rockstar is selling GTA 6 as a standalone single-player experience.</p>
       </div>
     </section>
+  </section>
+
+  <!-- ============ NEWS ============ -->
+  <section id="view-news" class="view">
+    <div class="wrap">
+      <p class="eyebrow">UPDATES</p>
+      <h2 class="section-title">News &amp; Updates</h2>
+      <p class="section-sub">Short posts every time something new is confirmed by Rockstar or Take-Two — or when a rumor is worth flagging. Newest first.</p>
+
+      <div class="news-grid" id="newsList"></div>
+    </div>
   </section>
 
   <!-- ============ 1. LAUNCH GUIDE ============ -->
