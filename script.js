@@ -532,6 +532,87 @@ function renderGroupedSection(items, order, containerId, stampCycle, iconMap, ki
 
 const CARD_STAMPS = ["stamp--cyan", "stamp--pink", "stamp--green"];
 
+/* ===========================================================
+   NEWS & UPDATES
+   Each post also gets its own static page (see generate_pages.py) so
+   it's independently indexable and shareable. Add new posts here —
+   newest first — then re-run the generator to build the matching page.
+   =========================================================== */
+const NEWS = [
+  {
+    slug: "preorders-live",
+    title: "Grand Theft Auto VI Pre-Orders Are Officially Live",
+    date: "2026-06-25",
+    category: "confirmed",
+    summary: "Pre-orders opened globally on June 25, 2026. Digital pre-load access is confirmed for November 12 — a full week ahead of the November 19 launch.",
+    body: [
+      "Pre-orders for Grand Theft Auto VI opened worldwide on June 25, 2026, across both the Standard and Ultimate Editions. Anyone who pre-orders — physical or digital — is also guaranteed the Vintage Vice City Pack, a free bonus that disappears for anyone who orders after November 20, 2026.",
+      "Digital customers who pre-order get pre-load access starting November 12, a full week before release, so the game is ready to play the moment it unlocks at midnight on November 19.",
+      "Physical copies ship as a code-in-box rather than a disc — a decision widely read as an attempt to reduce pre-release leaks and limit the resale market."
+    ]
+  },
+  {
+    slug: "editions-and-pricing-confirmed",
+    title: "GTA 6 Editions and Pricing Are Now Confirmed",
+    date: "2026-06-18",
+    category: "confirmed",
+    summary: "Rockstar confirmed the full edition lineup ahead of pre-orders opening: a $79.99 Standard Edition, a $99.99 Ultimate Edition, and a $20 digital-only upgrade path.",
+    body: [
+      "Ahead of pre-orders opening, Rockstar laid out exactly how Grand Theft Auto VI will be sold. The Standard Edition ($79.99) is the base single-player game, available as a code-in-box or fully digital.",
+      "The Ultimate Edition ($99.99) adds exclusive vehicles and weapon variants, cosmetic outfits, extra side missions, and access to in-game Customization Hubs. Anyone who already bought Standard can upgrade digitally through the PlayStation Store for $20 rather than re-buying the full game.",
+      "Every pre-order, regardless of edition, also includes the Vintage Vice City Pack — 1980s-styled cosmetics, a '55 Vapid Stanier sedan, a dedicated garage near Ocean Beach, and weapon skins inspired by the original Vice City."
+    ]
+  },
+  {
+    slug: "take-two-earnings-gta6",
+    title: "Take-Two's Earnings Show GTA 6's Massive Scale",
+    date: "2026-05-20",
+    category: "confirmed",
+    summary: "Take-Two Interactive reported $6.65B in FY2026 net revenue and is guiding for $8.0–8.2B in FY2027 — growth almost entirely tied to GTA 6's launch window.",
+    body: [
+      "In its fiscal year 2026 filings, Take-Two Interactive (NASDAQ: TTWO) reported $6.65 billion in net revenue. More striking is the company's own forecast for fiscal year 2027 (April 2026 through March 2027): net bookings of $8.0–8.2 billion.",
+      "That jump is guidance directly tied to Grand Theft Auto VI's November 19 launch landing inside that fiscal window. It's one of the clearest signals yet of how much of Take-Two's business now rides on this single release.",
+      "For comparison, GTA Online inside GTA V reportedly still earns over $500 million a year on its own through microtransactions — roughly $1 million a day — which is part of why Rockstar has been comfortable shipping GTA 6 as a pure single-player experience at launch, with no online mode."
+    ]
+  }
+];
+
+function newsCardHtml(post, isFull){
+  return `
+    <a class="news-card" href="${post.slug}.html">
+      <span class="news-card__date">${formatNewsDate(post.date)}</span>
+      <h3 class="news-card__title">${post.title}</h3>
+      <p class="news-card__summary">${post.summary}</p>
+    </a>
+  `;
+}
+
+function formatNewsDate(iso){
+  const d = new Date(iso + "T00:00:00");
+  return d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+}
+
+function renderNewsList(){
+  const container = document.getElementById("newsList");
+  if (!container) return;
+  if (!NEWS.length){
+    container.innerHTML = `<p class="news-empty">No posts yet — check back soon.</p>`;
+    return;
+  }
+  container.innerHTML = NEWS.map(p => newsCardHtml(p)).join("");
+}
+
+function renderHomeNewsTeaser(){
+  const container = document.getElementById("homeNewsTeaser");
+  if (!container) return;
+  const latest = NEWS.slice(0, 3);
+  if (!latest.length){
+    container.innerHTML = `<p class="news-empty">No posts yet — check back soon.</p>`;
+    return;
+  }
+  container.innerHTML = latest.map(p => newsCardHtml(p)).join("");
+}
+
 /* ---------------- init ---------------- */
 updateCountdown();
 setInterval(updateCountdown, 1000);
@@ -540,6 +621,8 @@ renderMentionedGrid();
 renderRegionGrid();
 renderGroupedSection(WEAPONS, WEAPON_CATEGORY_ORDER, "weaponCategories", CARD_STAMPS, WEAPON_ICONS, "weapon");
 renderGroupedSection(VEHICLES, VEHICLE_CATEGORY_ORDER, "vehicleCategories", CARD_STAMPS, VEHICLE_ICONS, "vehicle");
+renderNewsList();
+renderHomeNewsTeaser();
 
 /* Deep-linking: a detail page can link back to e.g.
    ../index.html#view-characters and land on the right tab. This also
