@@ -3,7 +3,7 @@ import json, re, os
 with open('/tmp/site_data.json') as f:
     data = json.load(f)
 
-CHARACTERS = data['CHARACTERS'] 
+CHARACTERS = data['CHARACTERS']
 RELATIONSHIPS = data['RELATIONSHIPS']
 CHARACTER_DETAILS = data['CHARACTER_DETAILS']
 WEAPONS = data['WEAPONS']
@@ -54,11 +54,11 @@ HEAD_TEMPLATE = '''<!DOCTYPE html>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>{title}</title>
 <meta name="description" content="{description}">
-<link rel="canonical" href="https://olaisong-hub.github.io/HeistFile/{slug}.html">
+<link rel="canonical" href="https://heistfile.com/{slug}.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="{og_title}">
 <meta property="og:description" content="{description}">
-<meta property="og:url" content="https://olaisong-hub.github.io/HeistFile/{slug}.html">
+<meta property="og:url" content="https://heistfile.com/{slug}.html">
 <meta property="og:site_name" content="HeistFile">
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
@@ -199,7 +199,7 @@ for c in CHARACTERS:
         "@type": "Person",
         "name": name,
         "description": detail['confirmed'][0],
-        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html",
+        "url": f"https://heistfile.com/{slug}.html",
         "characterAttribute": "Character in Grand Theft Auto VI (Rockstar Games)"
     }
     path = write_page(
@@ -274,7 +274,7 @@ for w in WEAPONS:
         "@type": "Thing",
         "name": name,
         "description": note if note else basis,
-        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html"
+        "url": f"https://heistfile.com/{slug}.html"
     }
     path = write_page(
         'weapons', slug,
@@ -341,7 +341,7 @@ for v in VEHICLES:
         "@type": "Thing",
         "name": name,
         "description": note if note else basis,
-        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html"
+        "url": f"https://heistfile.com/{slug}.html"
     }
     path = write_page(
         'vehicles', slug,
@@ -392,7 +392,7 @@ for n in NEWS:
         "headline": title,
         "description": summary,
         "datePublished": date_iso,
-        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html",
+        "url": f"https://heistfile.com/{slug}.html",
         "publisher": {"@type": "Organization", "name": "HeistFile"}
     }
     path = write_page(
@@ -408,3 +408,38 @@ for n in NEWS:
 
 print(f"News posts written: {len(news_files)}")
 print(f"TOTAL new files: {len(char_files) + len(weapon_files) + len(vehicle_files) + len(news_files)}")
+
+# ---------------- SITEMAP ----------------
+# Regenerated from the same slug data every time this script runs, so it
+# can never drift out of sync with what pages actually exist.
+import datetime
+SITE_URL = "https://heistfile.com"
+today = datetime.date.today().isoformat()
+
+all_slugs = ["index"]
+all_slugs += [c['slug'] for c in CHARACTERS]
+all_slugs += [slugify(w['name']) for w in WEAPONS]
+all_slugs += [slugify(v['name']) for v in VEHICLES if v.get('source')]
+all_slugs += [n['slug'] for n in NEWS]
+
+url_entries = []
+for slug in all_slugs:
+    loc = f"{SITE_URL}/" if slug == "index" else f"{SITE_URL}/{slug}.html"
+    priority = "1.0" if slug == "index" else "0.7"
+    url_entries.append(f"  <url>\n    <loc>{loc}</loc>\n    <lastmod>{today}</lastmod>\n    <priority>{priority}</priority>\n  </url>")
+
+sitemap_xml = '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + "\n".join(url_entries) + "\n</urlset>\n"
+
+with open(f"{BASE}/sitemap.xml", "w") as f:
+    f.write(sitemap_xml)
+print(f"sitemap.xml written with {len(all_slugs)} URLs")
+
+# ---------------- ROBOTS.TXT ----------------
+robots_txt = f"""User-agent: *
+Allow: /
+
+Sitemap: {SITE_URL}/sitemap.xml
+"""
+with open(f"{BASE}/robots.txt", "w") as f:
+    f.write(robots_txt)
+print("robots.txt written")
