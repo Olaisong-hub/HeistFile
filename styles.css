@@ -802,7 +802,7 @@ html, body{
   cursor: pointer;
   transition: transform 0.12s ease;
   text-decoration: none;
-  color: inherit;
+  color: var(--ink);
   display: block;
 }
 .dossier-card:hover{ transform: translateY(-2px); }
