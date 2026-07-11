@@ -8,6 +8,7 @@ RELATIONSHIPS = data['RELATIONSHIPS']
 CHARACTER_DETAILS = data['CHARACTER_DETAILS']
 WEAPONS = data['WEAPONS']
 VEHICLES = data['VEHICLES']
+NEWS = data.get('NEWS', [])
 
 def slugify(name):
     s = name.lower()
@@ -74,6 +75,7 @@ HEAD_TEMPLATE = '''<!DOCTYPE html>
     <a href="index.html" class="wordmark">HEISTFILE<span class="wordmark__dot">.</span></a>
     <nav class="tabs" aria-label="Page navigation">
       <a class="tab" href="index.html#view-home">Home</a>
+      <a class="tab{news_active}" href="index.html#view-news">News</a>
       <a class="tab" href="index.html#view-launch">Launch Guide</a>
       <a class="tab{characters_active}" href="index.html#view-characters">Characters</a>
       <a class="tab" href="index.html#view-map">Map</a>
@@ -106,13 +108,14 @@ FOOTER_TEMPLATE = '''  </div>
 </html>
 '''
 
-def write_page(folder, slug, title, description, og_title, jsonld_obj, crumb_href, crumb_label, name, body_html, characters_active=False, arsenal_active=False):
+def write_page(folder, slug, title, description, og_title, jsonld_obj, crumb_href, crumb_label, name, body_html, characters_active=False, arsenal_active=False, news_active=False):
     path = f"{BASE}/{slug}.html"
     head = HEAD_TEMPLATE.format(
         title=title, description=description, folder=folder, slug=slug,
         og_title=og_title, jsonld=json.dumps(jsonld_obj, indent=2),
         characters_active=" is-active" if characters_active else "",
         arsenal_active=" is-active" if arsenal_active else "",
+        news_active=" is-active" if news_active else "",
         crumb_href=crumb_href, crumb_label=crumb_label, name=name
     )
     full = head + body_html + FOOTER_TEMPLATE
@@ -352,4 +355,56 @@ for v in VEHICLES:
     vehicle_files.append(path)
 
 print(f"Vehicles written: {len(vehicle_files)}")
-print(f"TOTAL new files: {len(char_files) + len(weapon_files) + len(vehicle_files)}")
+
+# ---------------- NEWS ----------------
+news_files = []
+for n in NEWS:
+    slug = n['slug']
+    title = n['title']
+    date_iso = n['date']
+    summary = n['summary']
+    body_paragraphs = n['body']
+
+    import datetime
+    d = datetime.date(int(date_iso[:4]), int(date_iso[5:7]), int(date_iso[8:10]))
+    date_display = f"{d.strftime('%B')} {d.day}, {d.year}"
+
+    body_html = "".join(f"<p>{p}</p>" for p in body_paragraphs)
+    description = compose_description([summary])
+
+    body = f'''    <div class="detail-header">
+      <div>
+        <span class="stamp stamp--cyan">NEWS</span>
+        <h1 class="section-title" style="margin-top:8px;">{title}</h1>
+        <p class="detail-meta">{date_display}</p>
+      </div>
+    </div>
+
+    <div class="detail-body">
+      {body_html}
+      <h2>More updates</h2>
+      <p><a href="index.html#view-news" style="color:var(--cyan);">← Back to News &amp; Updates</a></p>
+    </div>
+'''
+    jsonld = {
+        "@context": "https://schema.org",
+        "@type": "NewsArticle",
+        "headline": title,
+        "description": summary,
+        "datePublished": date_iso,
+        "url": f"https://olaisong-hub.github.io/HeistFile/{slug}.html",
+        "publisher": {"@type": "Organization", "name": "HeistFile"}
+    }
+    path = write_page(
+        'news', slug,
+        title=f"{title} | HeistFile",
+        description=description,
+        og_title=title,
+        jsonld_obj=jsonld,
+        crumb_href="index.html#view-news", crumb_label="News",
+        name=title, body_html=body, news_active=True
+    )
+    news_files.append(path)
+
+print(f"News posts written: {len(news_files)}")
+print(f"TOTAL new files: {len(char_files) + len(weapon_files) + len(vehicle_files) + len(news_files)}")
